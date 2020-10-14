@@ -8,7 +8,7 @@ The MERN stack is a JavaScript stack that's is designed to make the development 
 
 MongoDB is a coss-platform document oriented db program. Classified as a NoSQL(non-relation) program, MongoDB uses JSON-like documents with optional schemas. It is developed by MongoDB Inc.
 
-2. Express: A back-end web application framework
+2. Express: A back-end web application framework.
 
 Express is a Fast, unopinionated, minimalist, web framework for Node.js that provide a robust set of features for web ,plugins and mobile applications. Instead of writing full web server code by hand on Node.js directly, developers uses express to simplify the task of writing server code. Therre's no need to repeat the same code over and over, as you would with the Node.js HTTP module.
 

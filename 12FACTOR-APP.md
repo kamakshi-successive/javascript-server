@@ -26,7 +26,7 @@ About 12 Factor APP Stack:
 Instances of a service need to be disposable so they can be started, stopped, and redeployed quickly, and with no loss of data. Services deployed in Docker containers satisfy this requirement automatically, as it’s an inherent feature of containers that they can be stopped and started instantly. Storing state or session data in queues or other backing services ensures that a request is handled seamlessly in the event of a container crash. We also proponents of using a backing store to support crash‑only design.
 
 
-10. Dev/Prod Parity: Keep all of your environments – development, staging, production, and so on – as identical as possible, to reduce the risk that bugs show up only in some environments. use of containers – a very powerful tool here, as they enable you to run exactly the same execution environment all the way from local development through production. However, that differences in the underlying data can still cause differences at runtime.
+10. Dev/Prod Parity: Keep all of your environments – development, staging, production, and so on – as identical as possible, to reduce the risk that bugs show up only in some environments. use of containers – a very powerful tool here, as they enable you to run exactly the same execution environment all the way from local development through production. However, that differences in the underlying data can still cause differences.
 
 11. Logs: Treat logs as event streams. Instead of including code in a microservice for routing or storing logs, use one of the many good log‑management solutions on the market. Further, deciding how you work with logs needs to be part of a larger APM and/or PaaS strategy.
 
