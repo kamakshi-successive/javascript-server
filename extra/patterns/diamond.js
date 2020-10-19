@@ -1,28 +1,34 @@
-let i;
-function createDimondShape(size){
-   for(i=1;i<=size;i++){
-      for(let s=size-1;s>=i;s--){
-         process.stdout.write(" ");
-      }
-      for(j=1;j<=i;j++){
-         process.stdout.write("* ")
-      }
-      console.log();
-   }
-   for(let c=1;c<=size;c++){
-       process.stdout.write("* ");
-   }
-   process.stdout.write("\n");
-   if(i==size+1){
-      for(let i=1;i<=size-1;i++){
-         for(let s=1;s<=i;s++){
-            process.stdout.write(" ");
-         }
-         for(j=i;j<=size-1;j++){
-            process.stdout.write("* ");
-         }
-         console.log();
-      }
-   }
+function printDiamond(n)
+{
+  let str;
+  for(let i=1; i<=n; i++)
+  {
+    str = '';
+    for(let k=1; k<=n-i; k++)
+    {
+      str += " ";
+    }
+    for(let j=1; j<=i; j++)
+    {
+      str += "* ";
+    }
+    console.log(str);
+    str = "";
+  }
+  for(let i=n; i>0; i--)
+  {
+    str = '';
+    for(let k=n-i; k>0; k--)
+    {
+      str += " ";
+    }
+    for(let j=1; j<=i; j++)
+    {
+      str += "* ";
+    }
+    console.log(str);
+    str = "";
+  }
 }
-createDimondShape(5);
+  n = process.argv[2];
+  printDiamond(n);
