@@ -1,14 +1,17 @@
-
-function triangle1(size){
-    for(var i=1;i<=size;i++){
-       for(var s=size-1;s>=i;s--){
-          process.stdout.write(" ");
-       }
-       for(var j=1;j<=i;j++){
-          process.stdout.write("* ")
-       }
-       console.log();
+function Equilateral(NoOfrow)
+{
+  for(let i=1;i<=NoOfrow;i++)
+  {
+    for(let x=NoOfrow-1;x>=i;x--)
+    {
+        process.stdout.write(" ");
     }
+    for(let j=1;j<=i;j++)
+    {
+        process.stdout.write("* ");
+    }
+    console.log();
+  }
 }
-var x=process.argv[2];
-triangle1(x);
+let y=process.argv[2];
+Equilateral(y)
