@@ -1,17 +1,23 @@
-function Equilateral(NoOfrow)
+
+
+function equilateral(n)
 {
-  for(let i=1;i<=NoOfrow;i++)
+  let str;
+  for(let i=1; i<=n; i++)
   {
-    for(let x=NoOfrow-1;x>=i;x--)
+    str = '';
+    for(let k=1; k<=n-i; k++)
     {
-        process.stdout.write(" ");
+      str += " ";
     }
-    for(let j=1;j<=i;j++)
+    for(let j=1; j<=i; j++)
     {
-        process.stdout.write("* ");
+      str += "* ";
     }
-    console.log();
+    console.log(str);
+    str = "";
   }
+
 }
 let y=process.argv[2];
-Equilateral(y)
+equilateral(y)
