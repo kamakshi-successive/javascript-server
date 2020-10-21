@@ -19,5 +19,6 @@ function equilateral(n)
   }
 
 }
-let y=process.argv[2];
+let y=process.argv[2];;
+
 equilateral(y)
