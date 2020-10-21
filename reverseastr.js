@@ -7,11 +7,3 @@ function rev(str)
 }
 
 rev("hello")
-
-
-//Chaining the three methods together:
-// function reverseString(str) {
-//     return str.split("").reverse().join("");
-// }
-// reverseString("hello");
-
