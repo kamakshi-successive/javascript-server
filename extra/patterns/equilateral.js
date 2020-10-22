@@ -1,6 +1,4 @@
-
-
-function equilateral(n)
+export default function equilateral(n)
 {
   let str;
   for(let i=1; i<=n; i++)
