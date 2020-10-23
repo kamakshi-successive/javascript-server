@@ -30,6 +30,6 @@ export default function printDiamond(n)
     str = "";
   }
 }
-let n
-  n = process.argv[2];
-  printDiamond(n);
+
+ // n = process.argv[2];
+  //printDiamond(n);

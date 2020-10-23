@@ -4,4 +4,4 @@ import equilateral from './equilateral';
 export{
   diamond,
   equilateral
-}
+};
