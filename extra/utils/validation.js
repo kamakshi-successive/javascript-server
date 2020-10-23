@@ -1,4 +1,3 @@
-
 let users=[
   {
   traineeEmail: 'trainee1@successive.tech',
@@ -22,14 +21,14 @@ let users=[
   }
   ]
 
-  function validateEmail(email){
+function validateEmail(email){
   var reg = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
   var domain=email.split('@')[1];
   return reg.test(email) && (domain=='successive.tech');
   }
 
 
-  function validateUsers(users){
+function validateUsers(users){
   const vuser=[];
   const iuser=[];
   let icount=0;
@@ -46,13 +45,9 @@ let users=[
   iuser.push({traineeEmail,reviewerEmail});
   }
   });
-  // const result = {
-  //  validUsers: vuser,
-  //  inValidUsers: iuser,
-  //  countOfValidUsers: vcount,
-  //  countOfInvalidUsers: icount,
-  // }
-   return {validUsers: vuser,
+
+  return {
+    validUsers: vuser,
     inValidUsers: iuser,
     countOfValidUsers: vcount,
     countOfInvalidUsers: icount,
@@ -61,12 +56,16 @@ let users=[
 
   const result = validateUsers(users);
   console.log(result);
+  // const result = {
+  //  validUsers: vuser,
+  //  inValidUsers: iuser,
+  //  countOfValidUsers: vcount,
+  //  countOfInvalidUsers: icount,
+  // }
+  // const notifyValidUsers = (validUsers) => {
+  //  validUsers.forEach((user) => {
+  //    console.log(`Hello ${user.traineeEmail}`);
+  //  })
+  // }
 
-
-  const notifyValidUsers = (validUsers) => {
-   validUsers.forEach((user) => {
-     console.log(`Hello ${user.traineeEmail}`);
-   })
-  }
-
-  notifyValidUsers(result.validUsers);
+  // notifyValidUsers(result.validUsers);
