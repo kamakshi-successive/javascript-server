@@ -1,6 +1,4 @@
-
-
-function equilateral(n)
+export default function equilateral(n)
 {
   let str;
   for(let i=1; i<=n; i++)
@@ -20,6 +18,6 @@ function equilateral(n)
 
 }
 
-let y=process.argv[2];
+//let y=process.argv[2];
 
-equilateral(y);
+//equilateral(y);

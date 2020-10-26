@@ -1,4 +1,4 @@
-function printDiamond(n)
+export default function printDiamond(n)
 {
   let str;
   for(let i=1; i<=n; i++)
@@ -30,5 +30,6 @@ function printDiamond(n)
     str = "";
   }
 }
-  n = process.argv[2];
-  printDiamond(n);
+
+ // n = process.argv[2];
+  //printDiamond(n);
