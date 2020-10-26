@@ -1,6 +1,7 @@
 // console.log("hi");
 import { diamond,equilateral } from './patterns';
 diamond(6)
+console.log("Equilateral Progra#############@@@@@@@@@@@@@@");
 equilateral(6)
 
 import {hasPermission,validateUsers} from './utils';
