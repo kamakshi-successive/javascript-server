@@ -5,21 +5,13 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "extra": "babel-node extra",
-<<<<<<< HEAD
     "start:extraTs": "node ./dist/extraTs/index.js",
-=======
-    "start:extraTs": "node ./dist/index.js",
->>>>>>> eec50f962244033eec552b69b79ef65e47377a05
     "nodemon": "nodemon ./dist/index.js",
     "lint": "./node_modules/tslint/bin/tslint -c tslint.json -p tsconfig.json --exclude 'node_modules/**/*.{j,t}s'",
     "lint:fix": "npm run lint --fix",
     "build": "tsc",
-<<<<<<< HEAD
     "commit": "cz",
     "start": "tsc-watch --project . --onSuccess \"npm run nodemon\""
-=======
-    "commit": "cz"
->>>>>>> eec50f962244033eec552b69b79ef65e47377a05
   },
   "repository": {
     "type": "git",
