@@ -1,8 +1,8 @@
 import * as express from 'express';
 import * as bodyparser from 'body-parser';
 
-import { notFoundHandler } from './config/libs/routes';
-import errorHandler from './config/libs/routes/errorHandler';
+import { notFoundHandler } from '../libs/routes';
+import errorHandler from '../libs/routes/errorHandler';
 console.log(bodyparser);
 class Server {
     // tslint:disable-next-line: semicolon
