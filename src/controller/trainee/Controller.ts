@@ -37,7 +37,7 @@ class TraineeController {
   }
 
   create(req, res, next) {
-    try{
+    try {
       console.log('Inside post method of Trainee Controller');
 
       res.send({
@@ -55,7 +55,7 @@ class TraineeController {
   }
 
   update(req, res, next) {
-    try{
+    try {
       console.log('Inside update method of Trainee Controller');
 
       res.send({
