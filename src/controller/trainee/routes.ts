@@ -1,9 +1,11 @@
 import { Router } from  'express';
 import  TraineeController  from './Controller';
+import validationHandler from '../../../libs/validationHandler';
+import validation from './validation';
 const traineeRouter = Router();
 
 traineeRouter.route('/')
-  .get(TraineeController.get)
+  .get(validationHandler(validation.get), TraineeController.get)
   .post(TraineeController.create)
   .put(TraineeController.update)
   .delete(TraineeController.delete);

@@ -51,6 +51,11 @@ class TraineeController {
       });
     } catch (err) {
       console.log('Inside err', err);
+      next({
+        error: 'Error Occured in creating user',
+        code: 500,
+        message: err
+      });
     }
   }
 
@@ -69,6 +74,11 @@ class TraineeController {
       });
     } catch (err) {
       console.log('Inside err', err);
+      next({
+        error: 'Error Occured in updating user',
+        code: 500,
+        message: err
+      });
     }
   }
 
@@ -87,6 +97,11 @@ class TraineeController {
       });
     } catch (err) {
       console.log('Inside err', err);
+      next({
+        error: 'Error Occured in deleting user',
+        code: 500,
+        message: err
+      });
     }
   }
 }

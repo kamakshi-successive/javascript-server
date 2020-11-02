@@ -19,11 +19,11 @@ class Server {
         const {app} = this;
 
         this.app.get('/health-check', (req, res, next) => {
-            console.log('Inside Second Middleware');
+          //  console.log('Inside Second Middleware');
             res.send('i am ok');
         });
         this.app.use('/api', (req, res, next) => {
-          console.log('Inside Fresh API');
+       //   console.log('Inside Fresh API');
           next();
 
         }, mainRouter);
