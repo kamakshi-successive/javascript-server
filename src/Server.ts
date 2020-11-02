@@ -1,8 +1,8 @@
 import * as express from 'express';
 import * as bodyparser from 'body-parser';
-
 import { notFoundHandler } from '../libs/routes';
 import errorHandler from '../libs/routes/errorHandler';
+import mainRouter from './router';
 console.log(bodyparser);
 class Server {
     // tslint:disable-next-line: semicolon
@@ -19,14 +19,19 @@ class Server {
         const {app} = this;
 
         this.app.get('/health-check', (req, res, next) => {
-            console.log('Inside Second Middleware');
+          //  console.log('Inside Second Middleware');
             res.send('i am ok');
         });
+        this.app.use('/api', (req, res, next) => {
+       //   console.log('Inside Fresh API');
+          next();
+
+        }, mainRouter);
 
         this.app.use(notFoundHandler);
 
         this.app.use(errorHandler);
-        return this;
+        // return this;
     }
 
     public initBodyParser() {
