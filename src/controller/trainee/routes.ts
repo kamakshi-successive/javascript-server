@@ -5,7 +5,7 @@ import validation from './validation';
 const traineeRouter = Router();
 
 traineeRouter.route('/')
-  .get(validationHandler(validation.get), TraineeController.get)
+  .get( validationHandler(validation.get), TraineeController.get)
   .post(TraineeController.create)
   .put(TraineeController.update)
   .delete(TraineeController.delete);
