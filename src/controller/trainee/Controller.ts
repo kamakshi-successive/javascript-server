@@ -1,4 +1,3 @@
-
 class TraineeController {
   instance: TraineeController;
   static instance: any;
