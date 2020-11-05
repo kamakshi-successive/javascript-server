@@ -1,5 +1,5 @@
 import * as mongoose from 'mongoose';
-
+import seedData from '../libs/routes/seeds';
 export default class Database {
     static open (mongoURL) {
         return new Promise((resolve, reject ) => {
@@ -12,6 +12,7 @@ export default class Database {
                 }
                 console.log('Database Connected');
                 // tslint:disable-next-line: no-null-keyword
+                seedData();
                 resolve(null);
             });
         });
