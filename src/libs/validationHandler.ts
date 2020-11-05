@@ -1,84 +1,62 @@
-import { NextFunction, Request, Response } from 'express';
-
-
-export default ( config ) => ( req: Request, res: Response, next: NextFunction  ) => {
-    const errors = [];
-    console.log( 'Inside ValidationHandler Middleware' );
-    console.log( req.body );
-    console.log( req.query );
-    const keys = Object.keys( config );
-    keys.forEach((key) => {
-        const obj = config[key];
-        console.log('key is' , key);
-        const values = obj.in.map( ( val ) => {
-            return req[ val ][ key ];
-                });
-
-        // Checking for In i.e Body or Query
-        console.log('body is', req[obj.in]);
-        // console.log('body', Object.keys( req[obj.in] ).length );
-        if (Object.keys( req[obj.in] ).length === 0) {
-            errors.push({
-                message: `Values should be passed through ${obj.in}`,
-                status: 400
-            });
-        }
-
-        // Checking for required
-        console.log('values is' , values);
-        if (obj.required) {
-            if (isNull(values[0])) {
-                errors.push({
-                    message: `${key} is required`,
-                    status: 404
-                });
+import { Request, Response, NextFunction } from 'express';
+const validationHandler = function (config) {
+  return function (req: Request, res: Response, next: NextFunction) {
+    const arrayName = [];
+    const Keys = Object.keys(config);
+    Keys.forEach(element => {
+      const objectkeys = config[element];
+      const ekeys = (Object.keys(objectkeys));
+      const values = (objectkeys['in'].map(inside => req[inside][element]))
+        .filter(ele => ele);
+      const inValue = (objectkeys['in']);
+      const data = req[inValue];
+      let value = values.length ? values[0] : undefined;
+      if (ekeys.includes('required')) {
+        if (objectkeys.required && !value) {
+          next({
+            error: `${element} is required`,
+            message: `${element} is required `,
+            status: '422'
+          });
+        } else {
+          if (objectkeys.string) {
+            if ((objectkeys.string) && typeof value !== 'string') {
+              arrayName.push(objectkeys.errorMessage || `${element} should be of type string`);
             }
-        }
-        if (obj.string) {
-            if ( !( typeof ( values[0] ) === 'string' ) ) {
-                errors.push({
-                    message: `${key} Should be a String`,
-                    status: 404
-                });
+          }
+          if (objectkeys.regex) {
+            const reg = new RegExp(objectkeys.regex);
+            if (!reg.test(value)) {
+              arrayName.push(objectkeys.errorMessage || `${element} is invalid`);
             }
-        }
-        if (obj.isObject) {
-            if ( ! ( typeof ( values ) === 'object' ) ) {
-                errors.push({
-                    message: `${key} Should be an object`,
-                    status: 404
-                });
+          }
+          if (objectkeys.number) {
+            if ((objectkeys.number) && isNaN(value) && value) {
+              arrayName.push(objectkeys.errorMessage || `${element} should be of type number`);
             }
-        }
-        if (obj.regex) {
-            const regex = obj.regex;
-            if (!regex.test(values[0])) {
-                errors.push({
-                    message: `${key} is not valid expression` ,
-                    status: 400,
-                });
+          }
+          if (objectkeys.default) {
+            if (value === '' || value === undefined) {
+              value = objectkeys.default;
             }
-        }
-
-        if (obj.number) {
-            if (isNaN(values[0]) || values[0] === undefined) {
-                errors.push({
-                    message: `${key}  must be an number` ,
-                    status: 400,
-                });
+          }
+          if (objectkeys.custom) {
+            objectkeys.custom(value)
+          }
+          if (objectkeys.isObject) {
+            if ((objectkeys.isObject) && typeof value !=='object') {
+              arrayName.push(objectkeys.errorMessage || `${element} should be of object type`)
             }
+          }
         }
-
+      }
     });
-    if (errors.length > 0) {
-        res.status(400).send({ errors});
+    if (arrayName.length) {
+      next(arrayName);
     }
     else {
-        next();
+      next();
     }
-};
-
-function isNull( obj ) {
-    const a = ( obj === undefined || obj === null );
-    return a;
   }
+}
+export default validationHandler;
