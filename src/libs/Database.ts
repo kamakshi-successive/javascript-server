@@ -1,5 +1,5 @@
 import * as mongoose from 'mongoose';
-import seedData from '../libs/routes/seeds';
+import seedData from './seeds';
 export default class Database {
     static open (mongoURL) {
         return new Promise((resolve, reject ) => {

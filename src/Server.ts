@@ -4,7 +4,7 @@ import { notFoundHandler } from './libs/routes';
 import errorHandler from './libs/routes/errorHandler';
 import mainRouter from './router';
 import Database from './libs/Database';
-import seed
+//import seed
 console.log(bodyparser);
 class Server {
     // tslint:disable-next-line: semicolon
@@ -40,18 +40,18 @@ class Server {
       this.app.use(bodyparser.json({ type: 'application/*+json' }));
     }
     run () {
-      const { app, config: { PORT, MONGO_URL } } = this;
-      Database.open(MONGO_URL)
+      const { app, config: { port, mongoURL } } = this;
+      console.log("port mong",port,mongoURL);
+      Database.open(mongoURL)
       .then((res) => {
-          app.listen(PORT, (err) => {
+          app.listen(port, (err) => {
               if (err) {
                   console.log(err);
               }
-              console.log('Success! App is running on port : ', PORT);
+              console.log('Success! App is running on port : ', port);
           });
       })
       .catch(err => console.log(err));
   }
 }
 export default Server;
-  
