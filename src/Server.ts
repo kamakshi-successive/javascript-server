@@ -4,6 +4,7 @@ import { notFoundHandler } from './libs/routes';
 import errorHandler from './libs/routes/errorHandler';
 import mainRouter from './router';
 import Database from './libs/Database';
+import seed
 console.log(bodyparser);
 class Server {
     // tslint:disable-next-line: semicolon
@@ -53,3 +54,4 @@ class Server {
   }
 }
 export default Server;
+  
