@@ -20,48 +20,40 @@ const config = {
           }
         },
 
-     delete:
-     {
-       id:
-       {
-         required: true,
-         errorMessage: 'Id is required',
-         in: ['params']
-        }
-      },
-
-     get:
-     {
-       skip:
-       {
-         required: false, default: 0,
-         number: true,  in: ['query'],
-         errorMessage: 'Skip is invalid',
-        },
-        limit:
-        {
-          required: false, default: 10,
-          number: true,  in: ['query'],
-          errorMessage: 'Limit is invalid',
-        }
-      },
-
-     update:
-     {
-       id:
-       {
-         required: true,
-         string: true,
-         in: ['body']
-        },
-     dataToUpdate:
-     {
-       in: ['body'],
+   
+delete: {
+   id: {
        required: true,
-       isObject: true,
-       custom(dataToUpdate) {},
+       errorMessage: 'Id is required',
+       in: ['params']
       }
-     }
-    };
+  },
 
-    export default config;
+get: {
+  skip: {
+      required: false,
+      default: 1,
+      number: true,
+      in: ['query'],
+      errorMessage: 'Skip is invalid', },
+  limit: {
+      required: false,
+      default: 10,
+      number: true,
+      in: ['query'],
+      errorMessage: 'Limit is invalid',
+  }
+},
+update: {
+  id: {
+      required: true,
+      string: true,
+      in: ['body']},
+  dataToUpdate: {
+          in: ['body'],
+          required: true,
+          isObject: true,
+  }
+}
+};
+export default config;
