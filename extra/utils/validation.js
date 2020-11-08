@@ -1,4 +1,3 @@
-
 import validateEmail from './helper.js'
 export default function validateUsers(user) {
   const validUsers = [];
