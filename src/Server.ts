@@ -37,7 +37,7 @@ class Server {
     }
 
     public initBodyParser() {
-      this.app.use(bodyparser.json({ type: 'application/*+json' }));
+      this.app.use(bodyparser.json());
     }
     run () {
       const { app, config: { port, mongoURL } } = this;
