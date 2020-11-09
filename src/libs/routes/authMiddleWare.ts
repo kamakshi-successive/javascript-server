@@ -1,8 +1,10 @@
 import * as jwt from 'jsonwebtoken';
 import { hasPermission }  from '../../../extraTs/utils';
+import IRequest from '../../IRequest';
+import { NextFunction } from 'connect';
 console.log('Json Web tokens', jwt);
 
-export default (module, permissionType) => (req, res, next) => {
+export default (module, permissionType) => (req: IRequest, res: Response, next: NextFunction) => {
   console.log('The Config is', module, permissionType);
 
   console.log('Header is', req.headers.authorization);
