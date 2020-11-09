@@ -13,8 +13,9 @@ try {
   const decodedUser = jwt.verify(tokens, 'qwertyuiopasdfghjklzxcvbnm123456');
   console.log('User: ', decodedUser);
   console.log('role', decodedUser.role);
-  if (hasPermission(module, decodedUser.role, permissionType)) { //
-next();
+  if (hasPermission(module, decodedUser.role, permissionType)) {
+    req.userData=decodedUser;
+    next();
   }
 
   else {
