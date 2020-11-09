@@ -13,8 +13,9 @@ class Server {
         this.app = express();
     }
     bootstrap() {
+      this.initBodyParser();
+
         this.SetupRoutes();
-        this.initBodyParser();
         return this;
     }
     SetupRoutes() {
