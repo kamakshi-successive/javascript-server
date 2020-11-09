@@ -1,7 +1,7 @@
 import * as jwt from 'jsonwebtoken';
 import { hasPermission }  from '../../../extraTs/utils';
 import IRequest from '../../IRequest';
-import { NextFunction } from 'connect';
+import { Request,Response,NextFunction } from 'express';
 console.log('Json Web tokens', jwt);
 
 export default (module, permissionType) => (req: IRequest, res: Response, next: NextFunction) => {
@@ -13,7 +13,7 @@ try {
   const decodedUser = jwt.verify(tokens, 'qwertyuiopasdfghjklzxcvbnm123456');
   console.log('User: ', decodedUser);
   console.log('role', decodedUser.role);
-  if (hasPermission(module, decodedUser.role, permissionType))
+  if (hasPermission(module, decodedUser.result.role, permissionType))
   next();
   else {
     next({
