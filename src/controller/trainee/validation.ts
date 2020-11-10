@@ -26,7 +26,7 @@ delete: {
 
 get: {
   skip: {
-      required: false,
+      required: true,
       default: 1,
       number: true,
       in: ['query'],
