@@ -49,7 +49,7 @@ errors.push({
     });
 }
 }
-}
+};
 
 export default (config) => (req: Request, res: Response, next: NextFunction) => {
     const errors = [];
@@ -58,7 +58,7 @@ export default (config) => (req: Request, res: Response, next: NextFunction) => 
     const keys = Object.keys(config);  // {'skip','limit'}
     keys.forEach((key) => {
         const obj = config[key];     // {' skip: { } ','limit':{ } }
-        let values = {} ;
+        const values = {} ;
         let isValueAvail = false;
         obj.in.forEach((val) => {
           values[val] = req[val][key];
@@ -68,7 +68,7 @@ export default (config) => (req: Request, res: Response, next: NextFunction) => 
         if (!obj.required && obj.default) {
 
           req[val][key] = req[val][key] || obj.default;
-          values[val]=req[val][key]
+          values[val] = req[val][key];
          }
         });
       // console.log('......values......', Object.values(values));     //   {query={2},values={}}
@@ -86,7 +86,7 @@ export default (config) => (req: Request, res: Response, next: NextFunction) => 
                       checkValidation(errors, obj, Object.values(values)[0], key);
             }
           }
-          else{
+          else {
             checkValidation(errors, obj, values, key);
 
           }
