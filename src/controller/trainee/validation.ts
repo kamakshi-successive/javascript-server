@@ -1,26 +1,25 @@
-
 const config = {
   create: {
       id: {
        required: true,
        string: true,
-       in: ['body'],
-       custom: (value) => {
-           console.log('Value', value);
+       in: [ 'body' ],
+       custom: ( value ) => {
+           console.log( 'Value', value );
            throw { error: 'Error Occured', message: 'Message' }; }
            },
       name: {
           required: true,
           regex: '',
-      in: ['body'],
+      in: [ 'body' ],
       errorMessage: 'Name is required',
   }
 },
 delete: {
    id: {
        required: true,
+       in: [ 'params' ],
        errorMessage: 'Id is required',
-       in: ['params']
       }
   },
 
@@ -29,13 +28,13 @@ get: {
       required: true,
       default: 1,
       number: true,
-      in: ['query'],
+      in: [ 'query' ],
       errorMessage: 'Skip is invalid', },
   limit: {
       required: false,
       default: 10,
       number: true,
-      in: ['query'],
+      in: [ 'query' ],
       errorMessage: 'Limit is invalid',
   }
 },

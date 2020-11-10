@@ -10,9 +10,7 @@ traineeRouter.route('/')
   .put(validationHandler(validation.update), TraineeController.update)
   .delete(validationHandler(validation.delete), TraineeController.delete);
 
-export default traineeRouter;
+  traineeRouter.route('/:id')
+  .delete(validationHandler(validation.delete), TraineeController.delete);
 
-// .get((req, res) => {console.log('Inside Get Routes'); res.send('Inside Get Route'); })
-  // .post((req, res) => {console.log('Inside post Routes'); res.send('Inside post Route'); })
-  // .put((req, res) => {console.log('Inside put Routes'); res.send('Inside put Route'); })
-  //  .delete((req, res) => {console.log('Inside delete Routes'); res.send('Inside delete Route'); });
+export default traineeRouter;
