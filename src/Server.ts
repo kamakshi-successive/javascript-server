@@ -11,8 +11,8 @@ class Server {
         this.app = express();
     }
     bootstrap() {
-        this.SetupRoutes();
-        this.initBodyParser();
+      this.initBodyParser();
+      this.SetupRoutes();
         return this;
     }
     SetupRoutes() {
@@ -35,7 +35,7 @@ class Server {
     }
 
     public initBodyParser() {
-      this.app.use(bodyparser.json({ type: 'application/*+json' }));
+      this.app.use(bodyparser.json( ));
     }
 
     run() {
