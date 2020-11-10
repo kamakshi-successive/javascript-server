@@ -51,7 +51,7 @@ errors.push({
 }
 };
 
-export default (config) => (req: Request, res: Response, next: NextFunction) => {
+export default ( config ) => ( req: Request, res: Response, next: NextFunction  ) => {
     const errors = [];
     console.log('Inside ValidationHandler Middleware');
     console.log('Body: ', req.body, 'Query: ', req.query, 'Params: ', req.params);

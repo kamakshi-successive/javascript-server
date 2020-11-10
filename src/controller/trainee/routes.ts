@@ -5,7 +5,6 @@ import validation from './validation';
 import authMiddleWare from '../../libs/routes/authMiddleWare';
 
 const traineeRouter = Router();
-
 traineeRouter.route('/')
     // .get(authMiddleWare('getUser1', 'read'), validationHandler(validation.get), TraineeController.get)
     .post(authMiddleWare('getUser', 'read'), validationHandler(validation.create), TraineeController.create);
