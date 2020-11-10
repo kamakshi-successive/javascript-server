@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 import { Request, Response, NextFunction } from 'express';
 import * as jwt from 'jsonwebtoken';
 import { userModel } from '../../repositories/user/UserModel';
@@ -118,7 +117,7 @@ class UserController {
   }
 
 login(req: Request, res: Response, next: NextFunction) {
-  console.log('Inside User Controller Login',req.body);
+  console.log('Inside User Controller Login', req.body);
   const {email, password} = req.body;
   console.log(email, password);
   userModel.findOne({email}, (err, result) => {
@@ -149,5 +148,3 @@ login(req: Request, res: Response, next: NextFunction) {
 
 
 export default new UserController();
-=======
->>>>>>> c67e7c8b9495424db9846ee7b9bad997034876fd
