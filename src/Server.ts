@@ -14,8 +14,12 @@ class Server {
     }
     bootstrap() {
       this.initBodyParser();
+<<<<<<< HEAD
 
         this.SetupRoutes();
+=======
+      this.SetupRoutes();
+>>>>>>> c67e7c8b9495424db9846ee7b9bad997034876fd
         return this;
     }
     SetupRoutes() {
@@ -38,7 +42,7 @@ class Server {
     }
 
     public initBodyParser() {
-      this.app.use(bodyparser.json());
+      this.app.use(bodyparser.json( ));
     }
     run () {
       const { app, config: { port, mongoURL } } = this;

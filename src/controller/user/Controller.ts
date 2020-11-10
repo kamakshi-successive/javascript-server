@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import { Request, Response, NextFunction } from 'express';
 import * as jwt from 'jsonwebtoken';
 import { userModel } from '../../repositories/user/UserModel';
@@ -148,3 +149,5 @@ login(req: Request, res: Response, next: NextFunction) {
 
 
 export default new UserController();
+=======
+>>>>>>> c67e7c8b9495424db9846ee7b9bad997034876fd
