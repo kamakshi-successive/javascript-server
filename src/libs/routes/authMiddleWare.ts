@@ -1,19 +1,22 @@
 import * as jwt from 'jsonwebtoken';
 import { hasPermission }  from '../../libs/permissions';
 import { permissions } from '../../libs/constants';
-console.log('Json Web tokens', jwt);
+import IRequest from '../../IRequest';
+import { Response , NextFunction } from 'express';
+// console.log('Json Web tokens', jwt);
 
-export default (module, permissionType) => (req, res, next) => {
+export default (module: any, permissionType: string) => (req: IRequest, res: Response, next: NextFunction) => {
+
+  try {
   console.log('The Config is', module, permissionType);
-
-  console.log('Header is', req.headers[`authorization`]);
-try {
-  const tokens = req.headers.authorization;
-  const decodedUser = jwt.verify(tokens, 'qwertyuiopasdfghjklzxcvbnm123456');
+  const token = req.headers.authorization;
+  console.log( token );
+  const decodedUser = jwt.verify(token, 'qwertyuiopasdfghjklzxcvbnm123456');
   console.log('User: ', decodedUser);
   console.log('role', decodedUser.role);
   if (hasPermission(permissions.getUser, decodedUser.role, permissionType)) {
-  console.log('true');
+    req.userData = decodedUser;
+    console.log('true');
   }
   else {
     next({

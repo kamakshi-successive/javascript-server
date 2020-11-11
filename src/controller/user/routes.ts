@@ -7,10 +7,9 @@ import config from './Controller';
 const UserRouter = express.Router();
 
 UserRouter.route('/login')
-.post( userController.login);
+.post( userController.login );
 
 UserRouter.route('/me')
 .get(authMiddleware('getUser', 'all'), userController.me);
-
 
 export default UserRouter;
