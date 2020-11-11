@@ -13,11 +13,13 @@ const checkValidation = ( errors, obj, values, key ) => {
         } );
     }
 }
+
+
 // Checking for string
 if (obj.string) {
   const isString = Object.keys(values).some(valKey => {
-    return (typeof (valKey) === 'string');
-  })
+    return (typeof values[valKey] === 'string');
+  });
   if (!isString) {
     errors.push({
           key,
@@ -30,7 +32,12 @@ if (obj.string) {
 // Checking for regex
 if (obj.regex) {
 const regex = obj.regex;
-if (!regex.test(values)) {
+console.log('Regex', regex);
+console.log('Values regex:- ', values);
+const isRegex = Object.keys(values).some(valKey => {
+  return  (new RegExp(regex).test(values));
+});
+if (!isRegex)  {
     errors.push({
         key,
         location: obj.in,
@@ -41,7 +48,13 @@ if (!regex.test(values)) {
 
 //   Checking for object
 if (obj.isObject) {
-if (!(typeof (values) === 'object')) {
+const obj1 = obj.isObject;
+console.log('isobject', obj1);
+const isObj = Object.keys(values).some(valkey => {
+        return (typeof (values[valkey]) === 'object');
+});
+
+if (!isObj) {
     errors.push({
         key,
         location: obj.in,
@@ -49,10 +62,7 @@ if (!(typeof (values) === 'object')) {
     });
 }
 }
-
-
-}
-
+};
 export default (config) => (req: Request, res: Response, next: NextFunction) => {
     const errors = [];
     console.log('Inside ValidationHandler Middleware');
@@ -60,7 +70,7 @@ export default (config) => (req: Request, res: Response, next: NextFunction) => 
     const keys = Object.keys(config);  // {'skip','limit'}
     keys.forEach((key) => {
         const obj = config[key];     // {' skip: { } ','limit':{ } }
-        let values = {} ;
+        const values = {} ;
         let isValueAvail = false;
         obj.in.forEach((val) => {
           values[val] = req[val][key];
@@ -70,7 +80,7 @@ export default (config) => (req: Request, res: Response, next: NextFunction) => 
         if (!obj.required && obj.default) {
 
           req[val][key] = req[val][key] || obj.default;
-          values[val]=req[val][key]
+          values[val] = req[val][key];
          }
         });
         console.log('......values......',  Object.values(values));     //   {query={2},values={}}
@@ -84,10 +94,10 @@ export default (config) => (req: Request, res: Response, next: NextFunction) => 
                 });
 
             } else {
-                      checkValidation(errors, obj, Object.values(values), key);
+                      checkValidation(errors, obj, values, key);
             }
           }
-          else{
+          else {
             checkValidation(errors, obj, values, key);
 
           }
