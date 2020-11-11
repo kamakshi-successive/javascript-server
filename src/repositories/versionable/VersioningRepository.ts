@@ -1,81 +1,124 @@
 import * as mongoose from 'mongoose';
-import { DocumentQuery, Query } from 'mongoose';
 
-export default class VersioningRepository<D extends mongoose.Document, M extends mongoose.Model<D>> {
+export default class VersionableRepository<D extends mongoose.Document, M extends mongoose.Model<D>> {
+    private model: M;
 
-  public static generateObjectId() {
-    return String(mongoose.Types.ObjectId());
-  }
-
-  private model: M;
-
-  constructor( model ) {
-    this.model = model;
-  }
-
-  public async create(options: any): Promise<D> {
-    const id = VersioningRepository.generateObjectId();
-    const model = new this.model({
-      ...options,
-      _id: id,
-      originalId: id
-    });
-    return await model.save();
-  }
-
-
-  public count(query: any): Query<number> {
-    const finalQuery = { deletedAt: undefined, ...query };
-    return this.model.countDocuments(finalQuery);
-  }
-
-  protected getAll(query: any, projection: any = {}, options: any = {}): DocumentQuery<D[], D> {
-    const finalQuery = { deletedAt: undefined, ...query };
-    return this.model.find(finalQuery, projection, options);
-  }
-
-  protected findOne(query: any): DocumentQuery<D, D> {
-    const finalQuery = { deletedAt: undefined, ...query };
-    return this.model.findOne(finalQuery);
+    constructor(model) {
+        this.model = model;
     }
 
-
-  protected find(query: any = {}, projection: any = {}, options: any = {}): DocumentQuery<D[], D> {
-      const finalQuery = { deletedAt: undefined, ...query };
-      return this.model.find(finalQuery, projection, options);
+    public static generateObjectId(): string {
+        return String(mongoose.Types.ObjectId());
     }
 
-    public invalidate(id: any): DocumentQuery<D, D> {
-      return this.model.update({originalId: id, deletedAt: undefined}, { deletedAt: Date.now() });
+    public count() {
+        return this.model.countDocuments();
     }
 
-    public async updateOne(data: any): Promise<D> {
-    console.log('Looking for previous valid document');
-    const prev = await this.findOne({ originalId: data.originalId, deletedAt: undefined});
-    console.log('Prev : ', prev);
-
-    if (prev) {
-      await this.invalidate(data.originalId);
-    } else {
-      return undefined;
+    public findOne(query: object) {
+        return this.model.findOne(query).lean();
     }
 
-    public async deleteone(data: any): Promise<D> {
-      console.log("Looking for deleted data");
-      const del = await this.findOne({originalId: data.originalId, deletedAt: undefined});
-      console.log('Deleted: ',del);
+    public createUser(data: any, creator): Promise<D> {
+        const id = VersionableRepository.generateObjectId();
+
+        const modelData = {
+            ...data,
+            originalId: id,
+            createdBy: creator,
+            _id: id,
+        };
+
+        return this.model.create(modelData);
+    }
+
+    public getUser(data: any) {
+        return this.model.findOne(data);
+    }
+
+    public update(id: string, dataToUpdate: any, updator) {
+
+        return new Promise((resolve, reject) => {
+            let originalData;
+            this.findOne({ id: id, updatedAt: null, deletedAt: null }).lean()
+                .then((data) => {
+                    if (data === null) {
+                        throw '';
+                    }
+                    originalData = data;
+                    const newId = VersionableRepository.generateObjectId();
+                    const oldId = originalData._id;
+                    const oldModel = {
+                        ...originalData,
+                        updatedAt: Date.now(),
+                        updatedBy: updator,
+                        deletedAt: Date.now(),
+                        deletedBy: updator,
+                    };
+
+                    const newData = Object.assign(JSON.parse(JSON.stringify(originalData)), dataToUpdate);
+
+                    newData._id = newId;
+                    newData.createdAt = Date.now();
+
+                    this.model.updateOne({ _id: oldId }, oldModel)
+                        .then((res) => {
+                            if (res === null) {
+                                throw '';
+                            }
+                        })
+                        .catch((err) => {
+                            reject(err);
+                        });
+
+                    this.model.create(newData);
+
+                    resolve(undefined);
+
+                })
+                .catch((err) => {
+                    reject(err);
+                });
+
+        });
 
     }
 
-    console.log('Data : ', data);
-    const newData = Object.assign(JSON.parse(JSON.stringify(prev)), data );
-    console.log('New Data : ', newData);
-    newData._id = VersioningRepository.generateObjectId();
-    delete newData.deletedAt;
+    public delete(id: string, remover: string) {
 
-    const model = new this.model(newData);
-    return model.save();
-  }
+        return new Promise((resolve, reject) => {
+            let originalData;
+
+            this.findOne({ id: id, deletedAt: null }).lean()
+                .then((data) => {
+                    if (data === null) {
+                        throw '';
+                    }
+
+                    originalData = data;
+                    const oldId = originalData._id;
+
+                    const modelDelete = {
+                        ...originalData,
+                        deletedAt: Date.now(),
+                        deletedBy: remover,
+                    };
+
+                    this.model.updateOne({ _id: oldId }, modelDelete)
+                        .then((res) => {
+                            if (res === null) {
+                                throw '';
+                            }
+                        })
+                        .catch((err) => {
+                            reject(err);
+                        });
+                    resolve(undefined);
+
+                })
+                .catch((err) => {
+                    reject(err);
+                });
+        });
+    }
 }
-
-
