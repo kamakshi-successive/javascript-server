@@ -20,22 +20,22 @@ class UserController {
                 });
             });
     }
-    public async getAll(req: IRequest, res: Response, next: NextFunction) {
-      const user = new UserRepository();
-      await user.getAll()
-          .then((data) => {
-              res.status(200).send({
-                  message: 'Users fetched successfully',
-                  'data': { data }
-              });
-          })
-          .catch ((err) => {
-              res.send({
-                  message: 'Unable to fetch trainee\'s',
-                  code: 404
-              });
-          });
-  }
+  //   public async getAll(req: IRequest, res: Response, next: NextFunction) {
+  //     const user = new UserRepository();
+  //     await user.getAll()
+  //         .then((data) => {
+  //             res.status(200).send({
+  //                 message: 'Users fetched successfully',
+  //                 'data': { data }
+  //             });
+  //         })
+  //         .catch ((err) => {
+  //             res.send({
+  //                 message: 'Unable to fetch trainee\'s',
+  //                 code: 404
+  //             });
+  //         });
+  // }
 
     public create(req: IRequest, res: Response, next: NextFunction) {
         const { id, email, name, role, password } = req.body;
