@@ -4,7 +4,7 @@ import { notFoundHandler } from './libs/routes';
 import errorHandler from './libs/routes/errorHandler';
 import mainRouter from './router';
 import Database from './libs/Database';
-//import seed
+// import seed
 console.log(bodyparser);
 class Server {
     // tslint:disable-next-line: semicolon
@@ -13,8 +13,8 @@ class Server {
         this.app = express();
     }
     bootstrap() {
-        this.SetupRoutes();
-        this.initBodyParser();
+      this.initBodyParser();
+      this.SetupRoutes();
         return this;
     }
     SetupRoutes() {
@@ -37,11 +37,11 @@ class Server {
     }
 
     public initBodyParser() {
-      this.app.use(bodyparser.json());
+      this.app.use(bodyparser.json( ));
     }
     run () {
       const { app, config: { port, mongoURL } } = this;
-      console.log("port mong",port,mongoURL);
+      console.log('port mong', port, mongoURL);
       Database.open(mongoURL)
       .then((res) => {
           app.listen(port, (err) => {

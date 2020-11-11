@@ -117,8 +117,9 @@ class UserController {
   }
 
 login(req: Request, res: Response, next: NextFunction) {
-  console.log('Inside User Controller Login');
+  console.log('Inside User Controller Login', req.body);
   const {email, password} = req.body;
+  console.log(email, password);
   userModel.findOne({email}, (err, result) => {
     if (result) {
       if (password === result.password) {
@@ -127,20 +128,17 @@ login(req: Request, res: Response, next: NextFunction) {
         res.send({
           data: token,
           message: 'login successfully',
-          status: 200,
         });
       }
       else {
         next({
           message: 'Incorrect password',
-          code: 403
         });
       }
     }
     else {
       res.send({
         message: 'Incorrect Email',
-        code: 403
       });
     }
   });
