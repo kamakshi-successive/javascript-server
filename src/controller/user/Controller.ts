@@ -2,9 +2,11 @@ import { Request, Response, NextFunction } from 'express';
 import * as jwt from 'jsonwebtoken';
 import { userModel } from '../../repositories/user/UserModel';
 import IRequest from '../../IRequest';
+import UserRepositories from '../../repositories/user/UserRepository';
 
 class UserController {
   instance: UserController;
+  userRepositories: UserRepositories = new UserRepositories();
   static instance: any;
 
   static getInstance() {
@@ -18,27 +20,33 @@ class UserController {
   }
 
   get(req: Request, res: Response, next: NextFunction) {
-    try {
-      console.log('Inside get method of User Controller');
+    const user = new UserRepositories();
+        const { id } = req.query;
 
-      res.send({
-        message: 'User fetched successfully',
-        data: [
-          {
-            name: 'User1',
-            address: 'Noida'
-          }
-        ]
-      });
-    } catch (err) {
-      console.log('Inside err', err);
-      next({
-        error: 'Error Occured in fetching user',
-        code: 500,
-        message: err
-      });
+        user.getUser({ id })
+            .then((data) => {
+                if (data === null) {
+                    throw '';
+                }
+
+                res.status(200).send({
+                    message: 'User Fetched successfully',
+
+                    data,
+
+                    code: 200
+                });
+
+            })
+            .catch(err => {
+                console.log(err);
+                res.send({
+                    error: 'User not found',
+                    code: 500
+                });
+            });
+
     }
-  }
 
   create(req: Request, res: Response, next: NextFunction) {
     try {
