@@ -40,10 +40,10 @@ export default class VersionableRepository<D extends mongoose.Document, M extend
 
         return new Promise((resolve, reject) => {
             let originalData;
-            this.findOne({ id: id, updatedAt: null, deletedAt: null }).lean()
+            this.findOne({ _id: id, updatedAt: undefined, deletedAt: undefined }).lean()
                 .then((data) => {
                     if (data === null) {
-                        throw '';
+                        throw undefined;
                     }
                     originalData = data;
                     const newId = VersionableRepository.generateObjectId();
@@ -64,7 +64,7 @@ export default class VersionableRepository<D extends mongoose.Document, M extend
                     this.model.updateOne({ _id: oldId }, oldModel)
                         .then((res) => {
                             if (res === null) {
-                                throw '';
+                                throw undefined;
                             }
                         })
                         .catch((err) => {
@@ -89,10 +89,10 @@ export default class VersionableRepository<D extends mongoose.Document, M extend
         return new Promise((resolve, reject) => {
             let originalData;
 
-            this.findOne({ id: id, deletedAt: null }).lean()
+            this.findOne({ _id: id, deletedAt: undefined }).lean()
                 .then((data) => {
                     if (data === null) {
-                        throw '';
+                        throw undefined;
                     }
 
                     originalData = data;
@@ -107,7 +107,7 @@ export default class VersionableRepository<D extends mongoose.Document, M extend
                     this.model.updateOne({ _id: oldId }, modelDelete)
                         .then((res) => {
                             if (res === null) {
-                                throw '';
+                                throw undefined;
                             }
                         })
                         .catch((err) => {

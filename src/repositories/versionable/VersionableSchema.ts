@@ -1,7 +1,8 @@
 import * as mongoose from 'mongoose';
-export default class versionSchema extends mongoose.Schema {
-  constructor(schema, options) {
+export default class VersionableSchema extends mongoose.Schema {
+  constructor(schema: any, options: any) {
     const baseSchema = {
+      ...schema,
       createdAt: {
         type: Date,
         default: Date.now
@@ -13,6 +14,6 @@ export default class versionSchema extends mongoose.Schema {
       updatedBy: String,
       deletedAt: Date
     };
-    super({...schema, ...baseSchema}, options);
+    super(baseSchema, options);
   }
 }

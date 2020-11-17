@@ -6,6 +6,35 @@ import { config } from '../../config';
 import IRequest from '../../IRequest';
 
 class UserController {
+  public async get(req: Request, res: Response, next: NextFunction) {
+
+    const user = new UserRepository();
+    const { id } = req.query;
+
+    await user.getUser({ id })
+        .then((data) => {
+            if (data === null) {
+                throw undefined;
+            }
+
+            res.status(200).send({
+                message: 'User Fetched successfully',
+
+                data,
+
+                code: 200
+            });
+
+        })
+        .catch(err => {
+            console.log(err);
+            res.send({
+                error: 'User not found',
+                code: 500
+            });
+        });
+
+}
 
     public async me(req: IRequest, res: Response, next: NextFunction) {
         const id = req.query;
