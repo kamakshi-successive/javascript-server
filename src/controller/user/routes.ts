@@ -10,12 +10,13 @@ const UserRouter = express.Router();
 
 UserRouter.get('/get', authMiddleWare(permissions.getUsers, 'read'), validationHandler(validation.get),
     UserController.get);
+
 UserRouter.post('/create', authMiddleWare(permissions.getUsers, 'read'), validationHandler(validation.create),
     UserController.create);
 UserRouter.put('/update', authMiddleWare(permissions.getUsers, 'read'), validationHandler(validation.update),
     UserController.update);
 UserRouter.delete('/:id', authMiddleWare(permissions.getUsers, 'read'), validationHandler(validation.delete),
-    UserController.remove);
+    UserController.delete);
 UserRouter.post('/login', validationHandler(validation.login), UserController.login);
 UserRouter.get('/me', authMiddleWare(permissions.getUsers, 'all'), UserController.me);
 

@@ -1,9 +1,12 @@
 import * as mongoose from 'mongoose';
-export default interface IVersionableModel extends mongoose.Document {
-  createdAt: Date;
-  createdBy: string;
-  updatedAt: Date;
-  updatedBy: string;
-  deletedAt: Date;
-  deletedBy: string;
+
+export default interface IVersionableDocumnet extends mongoose.Document {
+
+    deletedAt: Date;
+    originalId: string;
+    createdAt: Date;
+    updatedAt: Date;
+    updatedBy: string;
+    createdBy: string;
+    deletedBy: string;
 }

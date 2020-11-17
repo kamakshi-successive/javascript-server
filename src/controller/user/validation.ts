@@ -1,7 +1,7 @@
 const config = {
   create: {
       id: {
-          required: false,
+          required: true,
           string: false,
           in: ['body'],
           custom: (value) => {

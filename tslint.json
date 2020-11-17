@@ -120,6 +120,8 @@
 
   "no-trailing-whitespace": true,
 
+  "object-literal-shorthand":false,
+
   "no-null-keyword": true,
 
   "prefer-const": true,

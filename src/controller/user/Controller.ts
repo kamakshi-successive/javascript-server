@@ -34,9 +34,7 @@ class UserController {
             });
         });
 
-}
-
-    public async me(req: IRequest, res: Response, next: NextFunction) {
+}   public async me(req: IRequest, res: Response, next: NextFunction) {
         const id = req.query;
         const user = new UserRepository();
 
@@ -55,12 +53,13 @@ class UserController {
         const creator = req.userData._id;
 
         const user = new UserRepository();
-        await user.createUser({ email, name, role, password }, creator)
+        await user.createUser({id, email, name, role, password }, creator)
             .then(() => {
                 console.log(req.body);
                 res.send({
                     message: 'User Created Successfully!',
                     data: {
+                        'id': id,
                         'name': name,
                         'email': email,
                         'role': role,
@@ -93,7 +92,7 @@ class UserController {
         });
     }
 
-    public async remove(req: IRequest, res: Response, next: NextFunction) {
+    public async delete(req: IRequest, res: Response, next: NextFunction) {
         const  id  = req.params.id;
         const remover = req.userData._id;
         const user = new UserRepository();
