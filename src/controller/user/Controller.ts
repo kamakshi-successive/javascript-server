@@ -7,11 +7,11 @@ import IRequest from '../../IRequest';
 
 class UserController {
 
-    public me(req: IRequest, res: Response, next: NextFunction) {
+    public async me(req: IRequest, res: Response, next: NextFunction) {
         const id = req.query;
         const user = new UserRepository();
 
-        user.getUser({ id })
+        await user.getUser({ id })
             .then((data) => {
                 res.status(200).send({
                     message: 'User Fetched successfully',
@@ -20,34 +20,18 @@ class UserController {
                 });
             });
     }
-  //   public async getAll(req: IRequest, res: Response, next: NextFunction) {
-  //     const user = new UserRepository();
-  //     await user.getAll()
-  //         .then((data) => {
-  //             res.status(200).send({
-  //                 message: 'Users fetched successfully',
-  //                 'data': { data }
-  //             });
-  //         })
-  //         .catch ((err) => {
-  //             res.send({
-  //                 message: 'Unable to fetch trainee\'s',
-  //                 code: 404
-  //             });
-  //         });
-  // }
 
-    public create(req: IRequest, res: Response, next: NextFunction) {
+    public async create(req: IRequest, res: Response, next: NextFunction) {
         const { id, email, name, role, password } = req.body;
         const creator = req.userData._id;
 
         const user = new UserRepository();
-        user.createUser({ id, email, name, role, password }, creator)
+        await user.createUser({ email, name, role, password }, creator)
             .then(() => {
+                console.log(req.body);
                 res.send({
                     message: 'User Created Successfully!',
                     data: {
-                        'id': id,
                         'name': name,
                         'email': email,
                         'role': role,
@@ -58,13 +42,16 @@ class UserController {
             });
     }
 
-    public update(req: IRequest, res: Response, next: NextFunction) {
+    public async update(req: IRequest, res: Response, next: NextFunction) {
         const { id, dataToUpdate } = req.body;
+        console.log('id', id);
+        console.log('dataToUpdate', dataToUpdate);
         const updator = req.userData._id;
         const user = new UserRepository();
-        user.updateUser( id, dataToUpdate, updator)
+        await user.updateUser( id, dataToUpdate, updator)
         .then((result) => {
             res.send({
+                data: result,
                 message: 'User Updated',
                 code: 200
             });
@@ -77,11 +64,11 @@ class UserController {
         });
     }
 
-    public remove(req: IRequest, res: Response, next: NextFunction) {
+    public async remove(req: IRequest, res: Response, next: NextFunction) {
         const  id  = req.params.id;
         const remover = req.userData._id;
         const user = new UserRepository();
-        user.deleteData(id, remover)
+        await user.deleteData(id, remover)
         .then((result) => {
             res.send({
                 message: 'Deleted successfully',
@@ -96,12 +83,12 @@ class UserController {
         });
     }
 
-    public login(req: IRequest, res: Response, next: NextFunction) {
+    public async login(req: IRequest, res: Response, next: NextFunction) {
         const { email } = req.body;
 
         const user = new UserRepository();
 
-        user.getUser({ email })
+        await user.getUser({ email })
             .then((userData) => {
                 if (userData === null) {
                     res.status(404).send({
