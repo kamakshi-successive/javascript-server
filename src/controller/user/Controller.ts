@@ -1,9 +1,10 @@
 import * as jwt from 'jsonwebtoken';
 import { Request, Response, NextFunction } from 'express';
-
+import * as bcrypt from 'bcrypt';
 import UserRepository from '../../repositories/user/UserRepository';
 import { config } from '../../config';
 import IRequest from '../../IRequest';
+
 
 class UserController {
   public async get(req: Request, res: Response, next: NextFunction) {
@@ -34,7 +35,8 @@ class UserController {
             });
         });
 
-}   public async me(req: IRequest, res: Response, next: NextFunction) {
+}
+public async me(req: IRequest, res: Response, next: NextFunction) {
         const id = req.query;
         const user = new UserRepository();
 
@@ -48,12 +50,12 @@ class UserController {
             });
     }
 
-    public async create(req: IRequest, res: Response, next: NextFunction) {
+  public async create(req: IRequest, res: Response, next: NextFunction) {
         const { id, email, name, role, password } = req.body;
         const creator = req.userData._id;
 
         const user = new UserRepository();
-        await user.createUser({id, email, name, role, password }, creator)
+        await user.create({id, email, name, role, password }, creator)
             .then(() => {
                 console.log(req.body);
                 res.send({
@@ -113,6 +115,7 @@ class UserController {
 
     public async login(req: IRequest, res: Response, next: NextFunction) {
         const { email } = req.body;
+        console.log('Inside User Controller login ');
 
         const user = new UserRepository();
 
@@ -128,7 +131,8 @@ class UserController {
 
                 const { password } = userData;
 
-                if (password !== req.body.password) {
+
+                if (!bcrypt.comparesync(req.body.password, password)) {
                     res.status(401).send({
                         err: 'Invalid Password',
                         code: 401
@@ -136,7 +140,9 @@ class UserController {
                     return;
                 }
 
-                const token = jwt.sign(userData.toJSON(), config.KEY);
+                const token = jwt.sign(userData.toJSON(), config.KEY, {
+                  expiresIn: Math.floor(Date.now() / 1000) + ( 15 * 60),
+                });
                 res.send({
                     message: 'Login Successfull',
                     status: 200,
