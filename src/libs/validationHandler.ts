@@ -15,10 +15,29 @@ const checkValidation = ( errors, obj, values, key ) => {
 }
 
 
+// Checking for string
+if (obj.string) {
+  const isString = Object.keys(values).some(valKey => {
+    return (typeof values[valKey] === 'string');
+  });
+  if (!isString) {
+    errors.push({
+          key,
+          location: obj.in,
+          message: obj.errorMessage || `${key} Should be a String`,
+      });
+  }
+}
+
 // Checking for regex
 if (obj.regex) {
 const regex = obj.regex;
-if (!regex.test(values)) {
+console.log('Regex', regex);
+console.log('Values regex:- ', values);
+const isRegex = Object.keys(values).some(valKey => {
+  return  (new RegExp(regex).test(values));
+});
+if (!isRegex)  {
     errors.push({
         key,
         location: obj.in,
@@ -29,7 +48,13 @@ if (!regex.test(values)) {
 
 //   Checking for object
 if (obj.isObject) {
-if (!(typeof (values) === 'object')) {
+const obj1 = obj.isObject;
+console.log('isobject', obj1);
+const isObj = Object.keys(values).some(valkey => {
+        return (typeof (values[valkey]) === 'object');
+});
+
+if (!isObj) {
     errors.push({
         key,
         location: obj.in,
@@ -37,21 +62,8 @@ if (!(typeof (values) === 'object')) {
     });
 }
 }
-
-// Checking for string
-if (obj.string) {
-if (!(typeof (values) === 'string')) {
-
-errors.push({
-        key,
-        location: obj.in,
-        message: obj.errorMessage || `${key} Should be a String`,
-    });
-}
-}
 };
-
-export default ( config ) => ( req: Request, res: Response, next: NextFunction  ) => {
+export default (config) => (req: Request, res: Response, next: NextFunction) => {
     const errors = [];
     console.log('Inside ValidationHandler Middleware');
     console.log('Body: ', req.body, 'Query: ', req.query, 'Params: ', req.params);
@@ -71,8 +83,7 @@ export default ( config ) => ( req: Request, res: Response, next: NextFunction  
           values[val] = req[val][key];
          }
         });
-      // console.log('......values......', Object.values(values));     //   {query={2},values={}}
-        console.log('......values......',  Object.values(values)[0]);     //   {query={2},values={}}
+        console.log('......values......',  Object.values(values));     //   {query={2},values={}}
 
         if (obj.required) {
           if (!isValueAvail) {
@@ -83,7 +94,7 @@ export default ( config ) => ( req: Request, res: Response, next: NextFunction  
                 });
 
             } else {
-                      checkValidation(errors, obj, Object.values(values)[0], key);
+                      checkValidation(errors, obj, values, key);
             }
           }
           else {

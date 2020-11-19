@@ -10,16 +10,16 @@ const config = {
            },
       name: {
           required: true,
-          regex: '',
+          regex: '/^[a-zA-Z]+(?:-[a-zA-Z]+)*$/',
       in: [ 'body' ],
-      errorMessage: 'Name is required',
+      errorMessage: 'Name is invalid',
   }
 },
 delete: {
    id: {
        required: true,
        in: [ 'params' ],
-       errorMessage: 'Id is required',
+       errorMessage: 'Id is invalid',
       }
   },
 
