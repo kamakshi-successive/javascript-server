@@ -22,6 +22,10 @@ export default class UserRepository extends VersionableRepository<IUserModel, mo
         return super.getUser(data);
     }
 
+    public getAllUser(data) {
+      return super.getAllUser(data);
+  }
+
     public deleteData(id, remover) {
         return super.delete(id, remover);
     }

@@ -41,6 +41,9 @@ export default class VersionableRepository<D extends mongoose.Document, M extend
     public getUser(data: any) {
         return this.model.findOne(data);
     }
+    public getAllUser(data: any) {
+      return this.model.find(data);
+  }
 
     public async update(id: string, dataToUpdate: any, updator) {
 

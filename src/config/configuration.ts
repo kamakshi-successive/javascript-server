@@ -10,7 +10,7 @@ config();
 const envVars = process.env;
 // console.log('Inside config', envVars);
 const configuration = Object.freeze({
-  KEY:  'qwertyuiopasdfghjklzxcvbnm123456',
+  key : envVars.KEY,
   port : envVars.PORT,
   nodeEnv : envVars.NODE_ENV,
   mongoURL: envVars.MONGO_URL

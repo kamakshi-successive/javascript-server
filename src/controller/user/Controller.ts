@@ -34,7 +34,38 @@ class UserController {
             });
         });
 
-}   public async me(req: IRequest, res: Response, next: NextFunction) {
+}
+
+public async getAll(req: Request, res: Response, next: NextFunction) {
+
+  const user = new UserRepository();
+
+  await user.getAllUser({ })
+      .then((data) => {
+          if (data === null) {
+              throw undefined;
+          }
+
+          res.status(200).send({
+              message: 'User Fetched successfully',
+
+              data,
+
+              code: 200
+          });
+
+      })
+      .catch(err => {
+          console.log(err);
+          res.send({
+              error: 'User not found',
+              code: 500
+          });
+      });
+
+}
+
+public async me(req: IRequest, res: Response, next: NextFunction) {
         const id = req.query;
         const user = new UserRepository();
 
@@ -51,9 +82,8 @@ class UserController {
     public async create(req: IRequest, res: Response, next: NextFunction) {
         const { id, email, name, role, password } = req.body;
         const creator = req.userData._id;
-
         const user = new UserRepository();
-        await user.createUser({id, email, name, role, password }, creator)
+         user.createUser({id, email, name, role, password }, creator)
             .then(() => {
                 console.log(req.body);
                 res.send({
@@ -136,7 +166,7 @@ class UserController {
                     return;
                 }
 
-                const token = jwt.sign(userData.toJSON(), config.KEY);
+                const token = jwt.sign(userData.toJSON(), config.key);
                 res.send({
                     message: 'Login Successfull',
                     status: 200,
