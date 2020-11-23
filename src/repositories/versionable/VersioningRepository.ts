@@ -29,7 +29,7 @@ export default class VersionableRepository<D extends mongoose.Document, M extend
             _id: id,
             originalId: id,
             createdBy: options.id,
-            createdAt: Date.now(),
+            createdAt: new Date(),
             ...options,
 
         });
@@ -46,10 +46,10 @@ export default class VersionableRepository<D extends mongoose.Document, M extend
         ...record,
         ...data,
         updatedAt: new Date(),
-        deletedAt: undefined
+        deletedAt: new Date()
       });
     }
-    public async delete(id) {
-      return await this.model.update({ originalId: id, deletedAt: null }, { deletedAt: new Date()  });
+    async delete(id) {
+      return await this.model.update({ originalId: id }, { deletedAt: new Date() });
     }
 }
