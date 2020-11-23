@@ -17,8 +17,8 @@ UserRouter.put('/update', authMiddleWare(permissions.getUsers, 'read'), validati
     UserController.update);
 UserRouter.delete('/:id', authMiddleWare(permissions.getUsers, 'read'), validationHandler(validation.delete),
     UserController.delete);
-UserRouter.post('/login', validationHandler(validation.login), UserController.login);
-UserRouter.get('/me', authMiddleWare(permissions.getUsers, 'all'), UserController.me);
+// UserRouter.post('/login', validationHandler(validation.login), UserController.login);
+// UserRouter.get('/me', authMiddleWare(permissions.getUsers, 'all'), UserController.me);
 
 
 

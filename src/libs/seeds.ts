@@ -13,19 +13,19 @@ export default () => {
             const hash = bcrypt.hashSync(password, salt);
               console.log('Data seeding in progress');
               userRepository.create({
-                  id: '101',
+                  id: 101,
                   name: 'head-trainer',
                   email: 'headtrainer@successivetech',
                   role: 'head-trainer',
                   password: hash
-              }, undefined);
+              });
               userRepository.create({
-                  id: '102',
+                  id: 102,
                   name: 'trainer',
                   email: 'trainer@successivetech',
                   role: 'trainer',
                   password: hash
-              }, undefined );
+              });
           }
       })
       .catch(err => console.log(err));
