@@ -14,8 +14,8 @@ export default class VersionableRepository<D extends mongoose.Document, M extend
     public count(): mongoose.Query<number> {
       return this.model.countDocuments();
     }
-    public findOne(query) {
-        return this.model.findOne(query).lean();
+    public async findOne(id) {
+      return await this.model.findOne({ _id: id, deletedAt: undefined }).lean();
     }
     protected find(query = {}): DocumentQuery<D[], D> {
         return this.model.find(query);
@@ -49,7 +49,7 @@ export default class VersionableRepository<D extends mongoose.Document, M extend
         deletedAt: new Date()
       });
     }
-    async delete(id) {
+    public async delete(id) {
       return await this.model.update({ originalId: id }, { deletedAt: new Date() });
     }
 }
