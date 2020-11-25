@@ -40,30 +40,31 @@ public async getAll(req: Request, res: Response, next: NextFunction) {
 
   const user = new UserRepository();
 
-  await user.getAllUser({ })
-      .then((data) => {
-          if (data === null) {
-              throw undefined;
-          }
+try {
+  const result = await user.getAllUser({ });
+  {
+      if (result === null) {
+          throw undefined;
+      }
 
-          res.status(200).send({
-              message: 'User Fetched successfully',
+      res.status(200).send({
+          message: 'User Fetched successfully',
 
-              data,
+          result,
 
-              code: 200
-          });
+          code: 200
+      });
 
-      })
-      .catch(err => {
+  }
+    } catch (err) {
           console.log(err);
           res.send({
               error: 'User not found',
               code: 500
           });
-      });
+      }
+    }
 
-}
 
 public async me(req: IRequest, res: Response, next: NextFunction) {
         const id = req.query;
@@ -83,12 +84,12 @@ public async me(req: IRequest, res: Response, next: NextFunction) {
         const { id, email, name, role, password } = req.body;
         const creator = req.userData._id;
         const user = new UserRepository();
-         user.createUser({id, email, name, role, password }, creator)
-            .then(() => {
+         try {
+            const result = await user.createUser({id, email, name, role, password }, creator);
                 console.log(req.body);
                 res.send({
                     message: 'User Created Successfully!',
-                    data: {
+                    result: {
                         'id': id,
                         'name': name,
                         'email': email,
@@ -97,7 +98,14 @@ public async me(req: IRequest, res: Response, next: NextFunction) {
                     },
                     code: 200
                 });
-            });
+            }
+            catch (err) {
+              console.log(err);
+              res.send({
+                  error: 'Value not given properly',
+                  code: 500
+              });
+          }
     }
 
     public async update(req: IRequest, res: Response, next: NextFunction) {
@@ -106,40 +114,40 @@ public async me(req: IRequest, res: Response, next: NextFunction) {
         console.log('dataToUpdate', dataToUpdate);
         const updator = req.userData._id;
         const user = new UserRepository();
-        await user.updateUser( id, dataToUpdate, updator)
-        .then((result) => {
-            res.send({
+        try {
+           const result = await user.updateUser( id, dataToUpdate, updator);
+           res.send({
                 data: result,
                 message: 'User Updated',
                 code: 200
             });
-        })
-        .catch ((err) => {
+      } catch (err) {
             res.send({
                 error: 'User Not Found for update',
                 code: 404
             });
-        });
-    }
+          }
+        }
+
 
     public async delete(req: IRequest, res: Response, next: NextFunction) {
         const  id  = req.params.id;
         const remover = req.userData._id;
         const user = new UserRepository();
-        await user.deleteData(id, remover)
-        .then((result) => {
+        try { await user.deleteData(id, remover);
+
             res.send({
                 message: 'Deleted successfully',
                 code: 200
             });
-        })
-        .catch ((err) => {
+        }
+        catch (err) {
             res.send({
                 message: 'User not found to be deleted',
                 code: 404
             });
-        });
-    }
+          }
+        }
 
     public async login(req: IRequest, res: Response, next: NextFunction) {
         const { email } = req.body;
