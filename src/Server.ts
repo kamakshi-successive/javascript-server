@@ -24,11 +24,7 @@ class Server {
           //  console.log('Inside Second Middleware');
             res.send('i am ok');
         });
-        this.app.use('/api', (req, res, next) => {
-       //   console.log('Inside Fresh API');
-          next();
-
-        }, mainRouter);
+        this.app.use('/api', mainRouter);
 
         this.app.use(notFoundHandler);
 

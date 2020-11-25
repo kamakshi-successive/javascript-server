@@ -1,24 +1,54 @@
 import * as mongoose from 'mongoose';
-import { userModel } from './UserModel';
 import IUserModel from './IUserModel';
+import { userModel } from './UserModel';
+import * as bcrypt from 'bcrypt';
+import VersionableRepository from '../versionable/VersioningRepository';
+export default class UserRepository extends VersionableRepository<IUserModel, mongoose.Model<IUserModel>> {
 
-export default class UserRepository {
-
-    public static generateObjectID() {
-        return String(mongoose.Types.ObjectId());
+    constructor() {
+        super(userModel);
     }
 
-    public create(data): Promise<IUserModel> {
-        console.log('UserRepository create', data);
-        const id = UserRepository.generateObjectID();
-        const model = new userModel({
-            _id: id,
-            ...data,
-       });
-        return model.save();
+    public create(data, creator) {
+       const rawPassword = data.password;
+       console.log('rawPassword' , rawPassword);
+        const saltRounds = 10;
+        const salt = bcrypt.genSaltSync(saltRounds);
+        const hashedPassword = bcrypt.hashSync(rawPassword, salt);
+        data.password = hashedPassword;
+        console.log('data pass: ', data.password);
+        return super.createUser(data, creator);
     }
 
-    public count() {
-        return userModel.countDocuments();
+    public updateUser(id, data, updator) {
+      if ('password' in data) {
+        const rawPassword = data.password;
+        const saltRounds = 10;
+        const salt = bcrypt.genSaltSync(saltRounds);
+        const hashedPassword = bcrypt.hashSync(rawPassword, salt);
+        data.password = hashedPassword;
+    }
+
+        return super.update(id, data, updator);
+    }
+
+    public getUser(data) {
+        return super.getUser(data);
+    }
+
+    public getAllUser(data) {
+      return super.getAllUser(data);
+  }
+
+    public deleteData(id, remover) {
+        return super.delete(id, remover);
+    }
+
+    public findone(data) {
+        return super.findOne(data);
+    }
+
+    public countData() {
+        return super.count();
     }
 }
