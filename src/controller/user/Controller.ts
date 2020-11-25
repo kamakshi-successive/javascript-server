@@ -69,16 +69,22 @@ try {
 public async me(req: IRequest, res: Response, next: NextFunction) {
         const id = req.query;
         const user = new UserRepository();
-
-        await user.getUser({ id })
-            .then((data) => {
+        try {
+        const result = await user.getUser({ id });
                 res.status(200).send({
                     message: 'User Fetched successfully',
-                    'data': { data },
+                    'data': { result },
                     code: 200
                 });
-            });
+              }
+    catch (err) {
+      console.log(err);
+      res.send({
+          error: 'User not fetched succesfully',
+          code: 500
+      });
     }
+  }
 
     public async create(req: IRequest, res: Response, next: NextFunction) {
         const { id, email, name, role, password } = req.body;
@@ -154,9 +160,9 @@ public async me(req: IRequest, res: Response, next: NextFunction) {
 
         const user = new UserRepository();
 
-        await user.getUser({ email })
-            .then((userData) => {
-                if (userData === null) {
+        try {
+          const userData = await user.getUser({ email });
+              if (userData === null) {
                     res.status(404).send({
                         err: 'User Not Found',
                         code: 404
@@ -182,7 +188,14 @@ public async me(req: IRequest, res: Response, next: NextFunction) {
                 });
                 return;
 
-            });
+              }
+              catch (err) {
+                  res.send({
+                      error: 'User Not login',
+                      code: 404
+                  });
+
+              }
     }
 
 }
