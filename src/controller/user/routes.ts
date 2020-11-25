@@ -10,7 +10,8 @@ const UserRouter = express.Router();
 
 UserRouter.get('/get', authMiddleWare(permissions.getUsers, 'read'), validationHandler(validation.get),
     UserController.get);
-
+UserRouter.get('/', authMiddleWare(permissions.getUsers, 'read'), validationHandler(validation.get),
+    UserController.getAll);
 UserRouter.post('/create', authMiddleWare(permissions.getUsers, 'read'), validationHandler(validation.create),
     UserController.create);
 UserRouter.put('/update', authMiddleWare(permissions.getUsers, 'read'), validationHandler(validation.update),
