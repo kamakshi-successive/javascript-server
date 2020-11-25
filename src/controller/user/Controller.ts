@@ -6,49 +6,8 @@ import { config } from '../../config';
 import IRequest from '../../IRequest';
 
 class UserController {
-// public async getAll(req: Request, res: Response, next: NextFunction) {
-// let skip: number;
-// let limit: number;
-// let sort: boolean;
-// if ('limit' in req.query) {
-//   limit = Number(req.query.limit);
-// } else {
-//   limit = 10;
-// }
-// if ('skip' in req.query) {
-//   skip = Number(req.query.limit);
-// } else {
-//   skip = 0;
-// }
-// if ('sort' in req.query) {
-//   sort = true;
-// } else {
-//   sort = false;
-// }
-//   const user = new UserRepository();
-//   try {
-//       const result = await user.getAllUser(skip, limit, sort);
-//       {
-//         if (result === null) {
-//           throw undefined;
-//       }
-//        res.status(200).send({
-//          message: 'User Fetched successfully',
-//          'count' : result[1],
-//          result,
-//          code: 200
-//       });
-//     }
-//     } catch (err) {
-//       console.log(err);
-//       res.send({
-//         error: 'User not found',
-//         code: 500
-//       });
-//     }
-//   }
 
-async getAll(req: IRequest, res: Response, next: NextFunction) {
+public async getAll(req: IRequest, res: Response, next: NextFunction) {
   try {
       console.log('Inside get method of User Controller');
       const userRepository = new UserRepository();
