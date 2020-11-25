@@ -1,3 +1,4 @@
+
 import UserRepository from '../repositories/user/UserRepository';
 import * as bcrypt from 'bcrypt';
 import configuration from '../config/configuration';

@@ -107,84 +107,46 @@ public async delete(req: IRequest, res: Response, next: NextFunction) {
   }
 
   // To fetch the authorization token
-//   public async login(req: IRequest, res: Response, next: NextFunction) {
-//     const { email } = req.body;
-//     console.log('Inside User Controller login ');
-//     const user = new UserRepository();
-//     try {
-//       const userData = await user.getUser({ email });
-//       if (userData === null) {
-//         res.status(404).send({
-//         err: 'User Not Found',
-//         code: 404
-//       });
-//       return;
-//     }
-//     const { password } = userData;
-//     if (!bcrypt.comparesync(req.body.password, password)) {
-//       res.status(401).send({
-//         err: 'Invalid Password',
-//         code: 401
-//       });
-//       return;
-//     }
-//     const token = jwt.sign(userData.toJSON(), config.key, {
-//       expiresIn: Math.floor(Date.now() / 1000) + ( 15 * 60),
-//     });
-//     res.send({
-//       message: 'Login Successfull',
-//       status: 200,
-//       'token': token
-//     });
-//     return;
 
-// }
-// catch (err) {
-//   console.log(err);
-//     res.send({
-//       error: 'Value is not given properly',
-//       code: 500
-//     });
-//   }
-// }
-
-  // To fetch the current user
   public async login(req: IRequest, res: Response, next: NextFunction) {
-    const { email } = req.body;
-    const user = new UserRepository();
-    try {
-      const userData = await user.getUser({ email });
-      if (userData === null) {
-        res.status(404).send({
-          err: 'User Not Found',
-          code: 404
-        });
-        return;
-      }
-      const { password } = userData;
-      if (password !== req.body.password) {
-        res.status(401).send({
-          err: 'Invalid Password',
-          code: 401
-        });
-        return;
-      }
-      const token = jwt.sign(userData.toJSON(), config.key);
-      res.send({
-        status: 'ok',
-        message: 'Authorization Token',
-        'token': token
+  const { email } = req.body;
+  const user = new UserRepository();
+  try {
+    const userData = await user.getUser({ email });
+    if (userData === null) {
+      res.status(404).send({
+        err: 'User Not Found',
+        code: 404
       });
       return;
-      }
-      catch (err) {
-        res.send({
-          error: 'User Not login',
-          code: 404
-        });
-      }
     }
+    const { password } = userData;
+    if (!bcrypt.comparesync(req.body.password, password)) {
+      res.status(401).send({
+          err: 'Invalid Password',
+          code: 401
+      });
+      return;
+  }
+    const token = jwt.sign(userData.toJSON(), config.key, {
+      expiresIn: Math.floor(Date.now() / 1000) + ( 15 * 60),
+    });
+    res.send({
+      status: 'ok',
+      message: 'Authorization Token',
+      'token': token
+    });
+    return;
+    }
+    catch (err) {
+      res.send({
+        error: 'User Not login',
+        code: 404
+      });
+    }
+  }
 
+  // To fetch the current user
 
   public async me(req: IRequest, res: Response, next: NextFunction) {
   const id = req.query;

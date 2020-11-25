@@ -1,6 +1,6 @@
 import * as mongoose from 'mongoose';
 import { DocumentQuery, Query } from 'mongoose';
-
+import * as bcrypt from 'bcrypt';
 export default class VersionableRepository<D extends mongoose.Document, M extends mongoose.Model<D>> {
     private model: M;
     constructor(model) {
@@ -24,13 +24,18 @@ export default class VersionableRepository<D extends mongoose.Document, M extend
 
     public async createUser(data: any, creator): Promise<D> {
         const id = VersionableRepository.generateObjectId();
-
+        const rawPassword = data.password;
+        const saltRounds = 10;
+        const salt = bcrypt.genSaltSync(saltRounds);
+        const hashedPassword = bcrypt.hashSync(rawPassword, salt);
+        data.password = hashedPassword;
         const model = {
           ...data,
             _id: id,
             originalId: id,
             createdBy: creator,
             createdAt: Date.now(),
+
 
         };
         return await this.model.create(model);
