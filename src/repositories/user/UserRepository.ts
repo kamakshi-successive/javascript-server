@@ -36,9 +36,9 @@ export default class UserRepository extends VersionableRepository<IUserModel, mo
         return super.getUser(data);
     }
 
-    public getAllUser(data) {
-      return super.getAllUser(data);
-  }
+  //   public getAllUser(skip, limit, sort) {
+  //     return super.getAllUser(skip, limit, sort);
+  // }
 
     public deleteData(id, remover) {
         return super.delete(id, remover);
@@ -49,6 +49,6 @@ export default class UserRepository extends VersionableRepository<IUserModel, mo
     }
 
     public countData() {
-        return super.count();
+        return userModel.countDocuments();
     }
 }
