@@ -52,7 +52,6 @@ const config = {
           isObject: true,
       }
   },
-  
   login: {
       email: {
           required: true,
