@@ -8,8 +8,6 @@ import { permissions, user } from '../../libs/constants';
 
 const UserRouter = express.Router();
 
-UserRouter.get('/get', authMiddleWare(permissions.getUsers, 'read'), validationHandler(validation.get),
-    UserController.get);
 UserRouter.get('/', authMiddleWare(permissions.getUsers, 'read'), validationHandler(validation.get),
     UserController.getAll);
 UserRouter.post('/create', authMiddleWare(permissions.getUsers, 'read'), validationHandler(validation.create),
