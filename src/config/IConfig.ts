@@ -3,6 +3,6 @@ interface IConfig {
   NODE_ENV: string;
   MONGO_URL: string;
   KEY: string;
-  // TOKEN_SECRET: string
+  PASSWORD: string;
 }
 export { IConfig };

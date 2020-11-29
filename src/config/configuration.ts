@@ -13,7 +13,8 @@ const configuration = Object.freeze({
   key : envVars.KEY,
   port : envVars.PORT,
   nodeEnv : envVars.NODE_ENV,
-  mongoURL: envVars.MONGO_URL
+  mongoURL: envVars.MONGO_URL,
+  password: envVars.PASSWORD
 
 });
 

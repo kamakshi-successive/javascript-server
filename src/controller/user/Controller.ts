@@ -1,6 +1,6 @@
 import * as jwt from 'jsonwebtoken';
 import { Request, Response, NextFunction } from 'express';
-
+import * as bcrypt from 'bcrypt';
 import UserRepository from '../../repositories/user/UserRepository';
 import { config } from '../../config';
 import IRequest from '../../IRequest';
@@ -121,14 +121,16 @@ public async delete(req: IRequest, res: Response, next: NextFunction) {
       return;
     }
     const { password } = userData;
-    if (password !== req.body.password) {
+    if (!bcrypt.comparesync(req.body.password, password)) {
       res.status(401).send({
-        err: 'Invalid Password',
-        code: 401
+          err: 'Invalid Password',
+          code: 401
       });
       return;
-    }
-    const token = jwt.sign(userData.toJSON(), config.key);
+  }
+    const token = jwt.sign(userData.toJSON(), config.key, {
+      expiresIn: Math.floor(Date.now() / 1000) + ( 15 * 60),
+    });
     res.send({
       status: 'ok',
       message: 'Authorization Token',

@@ -6,6 +6,3 @@ export default(req: Request, res: Response, next: NextFunction) => {
     message: 'error'
   });
 };
-
-  // console.log('Inside First Middleware');
-  // res.send('Iam Good');
