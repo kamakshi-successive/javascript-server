@@ -1,11 +1,10 @@
-
 import UserRepository from '../repositories/user/UserRepository';
 import * as bcrypt from 'bcrypt';
 import configuration from '../config/configuration';
 
 const userRepository: UserRepository = new UserRepository();
 export default () => {
-  userRepository.count()
+  userRepository.countData()
       .then(res => {
           if (res === 0) {
             const saltRounds = 10;
