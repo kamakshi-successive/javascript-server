@@ -7,17 +7,19 @@ export default () => {
           if (res === 0) {
               console.log('Data seeding in progress');
               userRepository.create({
+                  id: '101',
                   name: 'head-trainer',
                   email: 'headtrainer@successivetech',
                   role: 'head-trainer',
                   password: 'training@123'
-              });
+              }, undefined);
               userRepository.create({
+                  id: '102',
                   name: 'trainer',
                   email: 'trainer@successivetech',
                   role: 'trainer',
                   password: 'training@123'
-              });
+              }, undefined );
           }
       })
       .catch(err => console.log(err));

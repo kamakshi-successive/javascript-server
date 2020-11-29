@@ -13,7 +13,7 @@ export default class Database {
                 console.log('Database Connected');
                 // tslint:disable-next-line: no-null-keyword
                 seedData();
-                resolve(null);
+                resolve(undefined);
             });
         });
     }

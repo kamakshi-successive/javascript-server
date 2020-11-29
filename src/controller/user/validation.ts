@@ -2,7 +2,7 @@ const config = {
   create: {
       id: {
           required: true,
-          string: true,
+          string: false,
           in: ['body'],
           custom: (value) => {
               console.log('Value', value);
@@ -52,7 +52,6 @@ const config = {
           isObject: true,
       }
   },
-  
   login: {
       email: {
           required: true,
