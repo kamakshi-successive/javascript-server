@@ -77,13 +77,13 @@ export default (config) => (req: Request, res: Response, next: NextFunction) => 
           if (req[val][key]) {
             isValueAvail = true;  // check for values
         }
-        if (!obj.required && obj.default) {
-
+        if (!obj.required || obj.default) {
+         // console.log('object values check', obj.default, key, val);
           req[val][key] = req[val][key] || obj.default;
           values[val] = req[val][key];
          }
         });
-       // console.log('......values......',  Object.values(values));     //   {query={2},values={}}
+       console.log('......values......',  Object.values(values));     //   {query={2},values={}}
 
         if (obj.required) {
           if (!isValueAvail) {

@@ -20,7 +20,7 @@ export default class VersionableRepository<D extends mongoose.Document, M extend
         return this.model.findOne(query).lean();
     }
 
-    protected find(query = {}): DocumentQuery<D[], D> {
+    public searchUser(query = {}): DocumentQuery<D[], D> {
         return this.model.find(query);
     }
 
@@ -33,13 +33,9 @@ export default class VersionableRepository<D extends mongoose.Document, M extend
       return this.model.find(finalQuery, projection, options);
     }
 
-    public async createUser(data: any, creator): Promise<D> {
+    public async create(data: any, creator): Promise<D> {
         const id = VersionableRepository.generateObjectId();
-        const rawPassword = data.password;
-        const saltRounds = 10;
-        const salt = bcrypt.genSaltSync(saltRounds);
-        const hashedPassword = bcrypt.hashSync(rawPassword, salt);
-        data.password = hashedPassword;
+
         const model = {
           ...data,
             _id: id,

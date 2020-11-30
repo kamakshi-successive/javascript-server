@@ -22,7 +22,7 @@ export default class UserRepository extends VersionableRepository<IUserModel, mo
         const hashedPassword = bcrypt.hashSync(rawPassword, salt);
         data.password = hashedPassword;
         console.log('data pass: ', data.password);
-        return super.createUser(data, creator);
+        return super.create(data, creator);
     }
 
     public updateUser(id, data, updator) {

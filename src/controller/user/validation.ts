@@ -27,7 +27,7 @@ const validationConfig = {
   get: {
       skip: {
           required: false,
-          default: 1,
+          default: 0,
           number: true,
           in: ['query'],
           errorMessage: 'Skip is invalid',
