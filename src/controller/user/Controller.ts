@@ -7,6 +7,8 @@ import IRequest from '../../IRequest';
 
 class UserController {
 
+// To get All the User data
+
 public async getAll(req: IRequest, res: Response, next: NextFunction) {
   try {
       console.log('Inside get method of User Controller');

@@ -2,6 +2,8 @@ class TraineeController {
   instance: TraineeController;
   static instance: any;
 
+// To create of static instance
+
   static getInstance() {
     if (TraineeController.instance) {
       return TraineeController.instance;
@@ -11,6 +13,8 @@ class TraineeController {
     TraineeController.instance = new TraineeController();
     return TraineeController.instance;
   }
+
+// To get training controller
 
   get(req, res, next) {
     try {
@@ -35,6 +39,8 @@ class TraineeController {
     }
   }
 
+// To create a training controller
+
   create(req, res, next) {
     try {
       console.log('Inside post method of Trainee Controller');
@@ -57,6 +63,8 @@ class TraineeController {
       });
     }
   }
+
+// To update a Trainee Controller
 
   update(req, res, next) {
     try {
@@ -81,6 +89,8 @@ class TraineeController {
     }
   }
 
+// To delete a Trainee Controller
+
   delete(req , res , next) {
     try {
       console.log('Inside delete method of Trainee Controller');
@@ -104,6 +114,5 @@ class TraineeController {
     }
   }
 }
-
 
 export default new TraineeController();

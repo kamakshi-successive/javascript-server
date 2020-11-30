@@ -9,6 +9,10 @@ class VersionableSchema extends mongoose.Schema {
                 default: Date.now,
                 type: Date,
             },
+            createdBy: {
+              required: false,
+              type: String,
+          },
             deletedAt: {
                 required: false,
                 type: Date,
@@ -22,10 +26,6 @@ class VersionableSchema extends mongoose.Schema {
                 type: String,
             },
             deletedBy: {
-                required: false,
-                type: String,
-            },
-            createdBy: {
                 required: false,
                 type: String,
             },

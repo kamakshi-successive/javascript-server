@@ -4,32 +4,25 @@ import { notFoundHandler } from './libs/routes';
 import errorHandler from './libs/routes/errorHandler';
 import mainRouter from './router';
 import Database from './libs/Database';
-// import seed
-console.log(bodyparser);
+
 class Server {
-    // tslint:disable-next-line: semicolon
-    app
+    app;
     constructor(private config) {
         this.app = express();
     }
     bootstrap() {
       this.initBodyParser();
       this.SetupRoutes();
-        return this;
+      return this;
     }
-    SetupRoutes() {
-        const {app} = this;
 
+    SetupRoutes() {
         this.app.get('/health-check', (req, res, next) => {
-          //  console.log('Inside Second Middleware');
             res.send('i am ok');
         });
         this.app.use('/api', mainRouter);
-
         this.app.use(notFoundHandler);
-
         this.app.use(errorHandler);
-        // return this;
     }
 
     public initBodyParser() {

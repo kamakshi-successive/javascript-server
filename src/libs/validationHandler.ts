@@ -65,8 +65,8 @@ if (!isObj) {
 };
 export default (config) => (req: Request, res: Response, next: NextFunction) => {
     const errors = [];
-    console.log('Inside ValidationHandler Middleware');
-    console.log('Body: ', req.body, 'Query: ', req.query, 'Params: ', req.params);
+   // console.log('Inside ValidationHandler Middleware');
+   // console.log('Body: ', req.body, 'Query: ', req.query, 'Params: ', req.params);
     const keys = Object.keys(config);  // {'skip','limit'}
     keys.forEach((key) => {
         const obj = config[key];     // {' skip: { } ','limit':{ } }
@@ -83,7 +83,7 @@ export default (config) => (req: Request, res: Response, next: NextFunction) => 
           values[val] = req[val][key];
          }
         });
-        console.log('......values......',  Object.values(values));     //   {query={2},values={}}
+       // console.log('......values......',  Object.values(values));     //   {query={2},values={}}
 
         if (obj.required) {
           if (!isValueAvail) {

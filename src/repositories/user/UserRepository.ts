@@ -9,6 +9,11 @@ export default class UserRepository extends VersionableRepository<IUserModel, mo
         super(userModel);
     }
 
+    public getUser(data) {
+      return super.getUser(data);
+  }
+
+
     public create(data, creator) {
        const rawPassword = data.password;
        console.log('rawPassword' , rawPassword);
@@ -31,14 +36,6 @@ export default class UserRepository extends VersionableRepository<IUserModel, mo
 
         return super.update(id, data, updator);
     }
-
-    public getUser(data) {
-        return super.getUser(data);
-    }
-
-  //   public getAllUser(skip, limit, sort) {
-  //     return super.getAllUser(skip, limit, sort);
-  // }
 
     public deleteData(id, remover) {
         return super.delete(id, remover);

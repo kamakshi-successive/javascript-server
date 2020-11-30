@@ -28,6 +28,7 @@
     "@babel/node": "^7.12.1",
     "@babel/preset-env": "^7.12.1",
     "@types/mongoose": "^5.7.37",
+    "bcrypt": "^5.0.0",
     "body-parser": "^1.19.0",
     "commitizen": "^4.2.2",
     "dotenv": "^8.2.0",
