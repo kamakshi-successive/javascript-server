@@ -10,6 +10,61 @@ const UserRouter = express.Router();
  * @swagger
  *
  *  definitions:
+ *      TraineePost:
+ *        type: object
+ *        properties:
+ *          email:
+ *              type: string
+ *              example: kamakshi.kumari@successive.tech
+ *          name:
+ *              type: string
+ *              example: Kamakshi
+ *          password:
+ *              type: string
+ *              example: train@12
+ *          role:
+ *               type: string
+ *               example: trainee
+ *      TraineeResponse:
+ *        type: object
+ *        properties:
+ *          _id:
+ *              example: 5e4a36bc64824b1f80b730cd
+ *          email:
+ *              type: string
+ *              example: kamakshi.kumari@successive.tech
+ *          name:
+ *              type: string
+ *              example: Kamakshi
+ *          role:
+ *              type: string
+ *              example: trainee
+ *          originalId:
+ *              example: 5e4a36bc64824b1f80b730cd
+ *          createdBy:
+ *              example: 5e45404398e86d576ad964e6
+ *          createdAt:
+ *              example: 2020-02-20T11:33:39.325Z
+ *          v:
+ *              example:0
+ *      Unauthorized:
+ *        type: object
+ *        properties:
+ *          error:
+ *              example: Unauthorized
+ *          message:
+ *              example: Token not found
+ *          status:
+ *              example: 403
+ *          timestamp:
+ *               example: 2020-11-25T17:34:37.066Z
+ *
+ */
+
+/**
+ * @swagger
+ *
+ *  definitions:
  *      me:
  *        type: object
  *        properties:
