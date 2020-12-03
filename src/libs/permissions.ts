@@ -1,13 +1,13 @@
-
 function hasPermission(moduleName: object, role: string, permissionType: string) {
   if (!moduleName.hasOwnProperty(permissionType)) {
-  return false;
+    return false;
   }
   else if (moduleName[permissionType].includes(role) || role === 'head-trainer') {
-  return true;
+    return true;
   }
   else {
-  return false;
+    return false;
   }
-  }
-  export { hasPermission };
+}
+
+export { hasPermission };

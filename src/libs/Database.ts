@@ -1,7 +1,8 @@
 import * as mongoose from 'mongoose';
 import seedData from './seeds';
 export default class Database {
-    static open (mongoURL) {
+
+  static open (mongoURL) {
         return new Promise((resolve, reject ) => {
             console.log('Mongo URL : ', mongoURL);
             mongoose.connect(mongoURL, { useNewUrlParser: true, useUnifiedTopology: true }, (err) => {
@@ -11,9 +12,8 @@ export default class Database {
                     return;
                 }
                 console.log('Database Connected');
-                // tslint:disable-next-line: no-null-keyword
                 seedData();
-                resolve(undefined);
+                resolve(mongoURL);
             });
         });
     }

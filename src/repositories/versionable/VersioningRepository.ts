@@ -11,28 +11,31 @@ export default class VersionableRepository<D extends mongoose.Document, M extend
         return String(mongoose.Types.ObjectId());
     }
 
-    // public count() {
-    //     return this.model.countDocuments();
-    // }
-  public count(query: any): Query<number> {
-      const finalQuery = { deletedAt: undefined, ...query };
-      return this.model.countDocuments(finalQuery);
-  }
+    public count(query: any): Query<number> {
+        const finalQuery = { deletedAt: undefined, ...query };
+        return this.model.countDocuments(finalQuery);
+    }
+
     public findOne(query) {
         return this.model.findOne(query).lean();
     }
-    protected find(query = {}): DocumentQuery<D[], D> {
+
+    public searchUser(query = {}): DocumentQuery<D[], D> {
         return this.model.find(query);
     }
 
+    public getUser(data: any) {
+      return this.model.findOne(data);
+    }
 
-    public async createUser(data: any, creator): Promise<D> {
+    public getAll(query: any, projection: any = {}, options: any = {}): DocumentQuery<D[], D> {
+      const finalQuery = { deletedAt: undefined, ...query };
+      return this.model.find(finalQuery, projection, options);
+    }
+
+    public async create(data: any, creator): Promise<D> {
         const id = VersionableRepository.generateObjectId();
-        const rawPassword = data.password;
-        const saltRounds = 10;
-        const salt = bcrypt.genSaltSync(saltRounds);
-        const hashedPassword = bcrypt.hashSync(rawPassword, salt);
-        data.password = hashedPassword;
+
         const model = {
           ...data,
             _id: id,
@@ -43,45 +46,10 @@ export default class VersionableRepository<D extends mongoose.Document, M extend
 
         };
         return await this.model.create(model);
-    }
-
-
-
-    public getUser(data: any) {
-        return this.model.findOne(data);
-    }
-
-  // public async getAllUser(skipDefined: number, limitDefined: number, sort: boolean) {
-  //   if ( sort ) {
-  //   const fetchData = await this.model.find( { deletedAt : undefined})
-  //   .skip(skipDefined)
-  //   .limit(limitDefined)
-  //   .sort({name: 1, email: 1});
-  //   const count = await this.model.find( {deletedAt: undefined})
-  //   .countDocuments();
-
-  //   const arr = [fetchData, count];
-  //   return arr;
-  //   } else {
-  //       const fetchData = await this.model.find({deletedAt: undefined})
-  //       .skip(skipDefined)
-  //       .limit(limitDefined)
-  //       .sort({createdAt: -1});
-  //       const count = await this.model.find({deletedAt: undefined})
-  //       .countDocuments();
-  //       const arr = [fetchData, count];
-  //       return arr;
-  //   }
-  //   }
-  public getAll(query: any, projection: any = {}, options: any = {}): DocumentQuery<D[], D> {
-    const finalQuery = { deletedAt: undefined, ...query };
-    return this.model.find(finalQuery, projection, options);
-  }
+      }
 
     public async update(id: string, dataToUpdate: any, updator) {
-
         let originalData;
-
         await this.findOne({ id: id, updatedAt: undefined, deletedAt: undefined })
             .then((data) => {
                 if (data === null) {
@@ -119,24 +87,19 @@ export default class VersionableRepository<D extends mongoose.Document, M extend
     }
 
     public async delete(id: string, remover: string) {
-
         let originalData;
-
         await this.findOne({ id: id, deletedAt: undefined })
             .then((data) => {
                 if (data === null) {
                     throw undefined;
                 }
-
                 originalData = data;
                 const oldId = originalData._id;
-
                 const modelDelete = {
                     ...originalData,
                     deletedAt: Date.now(),
                     deletedBy: remover,
                 };
-
                 this.model.updateOne({ _id: oldId }, modelDelete)
                     .then((res) => {
                         if (res === null) {

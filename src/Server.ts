@@ -4,11 +4,11 @@ import { notFoundHandler } from './libs/routes';
 import errorHandler from './libs/routes/errorHandler';
 import mainRouter from './router';
 import Database from './libs/Database';
-// import seed
-console.log(bodyparser);
+import * as swaggerUi from 'swagger-ui-express';
+import * as swaggerJsDoc from 'swagger-jsdoc';
+
 class Server {
-    // tslint:disable-next-line: semicolon
-    app
+    app;
     constructor(private config) {
         this.app = express();
     }
@@ -17,14 +17,39 @@ class Server {
       this.SetupRoutes();
         return this;
     }
+    initSwagger = () => {
+      const options = {
+          definition: {
+              info: {
+                  title: 'JavaScript-Server API Swagger',
+                  version: '1.0.0',
+              },
+              securityDefinitions: {
+                  Bearer: {
+                      type: 'apiKey',
+                      name: 'Authorization',
+                      in: 'headers'
+                  }
+              }
+          },
+          basePath: '/api',
+          swagger: '4.1',
+          apis: ['./dist/controller/user/routes.js'],
+      };
+      const swaggerSpec = swaggerJsDoc(options);
+      return swaggerSpec;
+  }
     SetupRoutes() {
         const {app} = this;
+        this.app.use('/swagger', swaggerUi.serve, swaggerUi.setup(this.initSwagger()));
 
         this.app.get('/health-check', (req, res, next) => {
-          //  console.log('Inside Second Middleware');
+
             res.send('i am ok');
         });
         this.app.use('/api', mainRouter);
+
+
 
         this.app.use(notFoundHandler);
 

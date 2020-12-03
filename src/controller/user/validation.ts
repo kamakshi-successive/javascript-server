@@ -1,4 +1,4 @@
-const config = {
+const validationConfig = {
   create: {
       id: {
           required: true,
@@ -27,7 +27,7 @@ const config = {
   get: {
       skip: {
           required: false,
-          default: 1,
+          default: 0,
           number: true,
           in: ['query'],
           errorMessage: 'Skip is invalid',
@@ -65,4 +65,5 @@ const config = {
       }
   }
 };
-export default config;
+
+export default validationConfig;
