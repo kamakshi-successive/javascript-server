@@ -129,10 +129,10 @@ public async delete(req: IRequest, res: Response, next: NextFunction) {
   // To fetch the authorization token
 
   public async login(req: IRequest, res: Response, next: NextFunction) {
-  const { email } = req.body;
+  const { email} = req.body;
   const user = new UserRepository();
   try {
-    const userData = await user.getUser({ email });
+    const userData = await user.getUser({ email});
     console.log('User: ', userData);
     if (userData === null) {
       res.status(404).send({
@@ -142,7 +142,8 @@ public async delete(req: IRequest, res: Response, next: NextFunction) {
       return;
     }
     const { password } = userData;
-    if (!bcrypt.compare(req.body.password, password)) {
+    console.log('pass', password)
+    if (!bcrypt.compareSync(req.body.password, password)) {
       res.status(401).send({
           err: 'Invalid Password',
           code: 401
