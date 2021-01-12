@@ -1,7 +1,7 @@
 const validationConfig = {
   create: {
       id: {
-          required: true,
+          required: false,
           string: false,
           in: ['body'],
           custom: (value) => {

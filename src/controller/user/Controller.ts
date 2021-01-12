@@ -109,6 +109,7 @@ public async update(req: IRequest, res: Response, next: NextFunction) {
 
 public async delete(req: IRequest, res: Response, next: NextFunction) {
   const  id  = req.params.id;
+  console.log('id', id)
   const remover = req.userData._id;
   const user = new UserRepository();
   try {

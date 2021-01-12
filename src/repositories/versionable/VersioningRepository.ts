@@ -50,7 +50,7 @@ export default class VersionableRepository<D extends mongoose.Document, M extend
 
     public async update(id: string, dataToUpdate: any, updator) {
         let originalData;
-        await this.findOne({ id: id, updatedAt: undefined, deletedAt: undefined })
+        await this.findOne({ _id: id, updatedAt: undefined, deletedAt: undefined })
             .then((data) => {
                 if (data === null) {
                     throw undefined;
@@ -88,7 +88,7 @@ export default class VersionableRepository<D extends mongoose.Document, M extend
 
     public async delete(id: string, remover: string) {
         let originalData;
-        await this.findOne({ id: id, deletedAt: undefined })
+        await this.findOne({ _id: id, deletedAt: undefined })
             .then((data) => {
                 if (data === null) {
                     throw undefined;

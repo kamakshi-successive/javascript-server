@@ -9,22 +9,23 @@ export default () => {
           if (res === 0) {
             const saltRounds = 10;
             const password = configuration.password;
-            const salt = bcrypt.genSaltSync(saltRounds);
-            const hash = bcrypt.hashSync(password, salt);
+            // const salt = bcrypt.genSaltSync(saltRounds);
+            // const hash = bcrypt.hashSync(password, salt);
               console.log('Data seeding in progress');
               userRepository.create({
                   id: '101',
                   name: 'head-trainer',
-                  email: 'headtrainer@successivetech',
+                  email: 'headtrainer@successive.tech',
                   role: 'head-trainer',
-                  password: hash
+                  password
               }, undefined);
+              console.log('password seed', password)
               userRepository.create({
                   id: '102',
                   name: 'trainer',
-                  email: 'trainer@successivetech',
+                  email: 'trainer@successive.tech',
                   role: 'trainer',
-                  password: hash
+                  password
               }, undefined );
           }
       })
