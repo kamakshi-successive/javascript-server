@@ -1,8 +1,8 @@
 const validationConfig = {
   create: {
       id: {
-       required: true,
-       string: true,
+       required: false,
+       string: false,
        in: [ 'body' ],
        custom: ( value ) => {
            console.log( 'Value', value );
@@ -10,7 +10,7 @@ const validationConfig = {
            },
       name: {
           required: true,
-          regex: '/^[a-zA-Z]+(?:-[a-zA-Z]+)*$/',
+          // regex: '/^[a-zA-Z]+(?:-[a-zA-Z]+)*$/',
       in: [ 'body' ],
       errorMessage: 'Name is invalid',
   }
