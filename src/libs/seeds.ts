@@ -9,8 +9,6 @@ export default () => {
           if (res === 0) {
             const saltRounds = 10;
             const password = configuration.password;
-            // const salt = bcrypt.genSaltSync(saltRounds);
-            // const hash = bcrypt.hashSync(password, salt);
               console.log('Data seeding in progress');
               userRepository.create({
                   id: '101',
