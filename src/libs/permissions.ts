@@ -4,7 +4,9 @@ function hasPermission(moduleName: object, role: string, permissionType: string)
     console.log('permission1', a);
     return false;
   }
+  
   else if (moduleName[permissionType].includes(role) || role === 'head-trainer') {
+    console.log('mod', moduleName[permissionType] );
     return true;
   }
   else {
