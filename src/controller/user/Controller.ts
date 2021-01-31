@@ -40,7 +40,7 @@ public async getAll(req: IRequest, res: Response, next: NextFunction) {
           message: 'User fetched successfully',
           totalCount: await userRepository.count(req.body),
           count: extractedData.length,
-          data: [extractedData],
+          data: extractedData,
           status: 'success',
       });
 
@@ -152,7 +152,7 @@ public async delete(req: IRequest, res: Response, next: NextFunction) {
       return;
   }
     const token = jwt.sign(userData.toJSON(), config.key, {
-      expiresIn: Math.floor(Date.now() / 1000) + ( 15 * 60),
+      expiresIn: '900m',
     });
     res.send({
       status: 'ok',
@@ -173,14 +173,15 @@ public async delete(req: IRequest, res: Response, next: NextFunction) {
   // To fetch the current user
 
   public async me(req: IRequest, res: Response, next: NextFunction) {
-  const id = req.query;
+  const id = req.userData;
+  console.log('userData', req.userData)
   const user = new UserRepository();
   try {
-    const data = await user.getUser( id );
+    // const data = await user.getUser( id );
     res.status(200).send({
       status: 'ok',
       message: 'Me',
-      'data':  data ,
+      'data':  req.userData ,
     });
   } catch (err) {
     console.log(err);

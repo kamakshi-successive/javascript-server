@@ -208,7 +208,7 @@ UserRouter.get('/', authMiddleWare(permissions.getUsers, 'read'), validationHand
  *         schema:
  *              $ref: '#/definitions/Unauthorized'
  */
-UserRouter.post('/create', authMiddleWare(permissions.getUsers, 'read'), validationHandler(validationConfig.create),
+UserRouter.post('/create', authMiddleWare(permissions.getUsers, 'write'), validationHandler(validationConfig.create),
     UserController.create);
 /**
  * @swagger
@@ -256,7 +256,7 @@ UserRouter.post('/create', authMiddleWare(permissions.getUsers, 'read'), validat
  *         schema:
  *              $ref: '#/definitions/Unauthorized'
  */
-UserRouter.put('/update', authMiddleWare(permissions.getUsers, 'read'), validationHandler(validationConfig.update),
+UserRouter.put('/update', authMiddleWare(permissions.getUsers, 'all'), validationHandler(validationConfig.update),
     UserController.update);
 /**
  * @swagger
@@ -293,7 +293,7 @@ UserRouter.put('/update', authMiddleWare(permissions.getUsers, 'read'), validati
  *         schema:
  *              $ref: '#/definitions/Unauthorized'
  */
-UserRouter.delete('/:id', authMiddleWare(permissions.getUsers, 'read'), validationHandler(validationConfig.delete),
+UserRouter.delete('/:id', authMiddleWare(permissions.getUsers, 'delete'), validationHandler(validationConfig.delete),
     UserController.delete);
 
 /**
@@ -361,6 +361,6 @@ UserRouter.post('/login', validationHandler(validationConfig.login), UserControl
  *         schema:
  *             $ref: '#/definitions/me'
  */
-UserRouter.get('/me', authMiddleWare(permissions.getUsers, 'all'), UserController.me);
+UserRouter.get('/me', authMiddleWare(permissions.getUsers, 'read'), UserController.me);
 
 export default UserRouter;
