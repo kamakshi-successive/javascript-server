@@ -40,6 +40,7 @@ const validationConfig = {
           errorMessage: 'Limit is invalid',
       }
   },
+  
   update: {
       id: {
           required: true,
