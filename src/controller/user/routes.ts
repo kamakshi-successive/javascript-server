@@ -293,7 +293,7 @@ UserRouter.put('/update', authMiddleWare(permissions.getUsers, 'all'), validatio
  *         schema:
  *              $ref: '#/definitions/Unauthorized'
  */
-UserRouter.delete('/:id', authMiddleWare(permissions.getUsers, 'delete'), validationHandler(validationConfig.delete),
+UserRouter.delete('/:id', authMiddleWare(permissions.getUsers, 'Delete'), validationHandler(validationConfig.delete),
     UserController.delete);
 
 /**
