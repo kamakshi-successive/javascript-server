@@ -58,17 +58,12 @@ public async create(req: IRequest, res: Response, next: NextFunction) {
   const user = new UserRepository();
   try {
     const result = await user.create({id, email, name, role, password }, creator);
+    console.log('res cre', result);
     console.log(req.body);
     res.send({
       status: 'ok',
       message: 'User Created Successfully!',
-      result: {
-        'id': id,
-        'name': name,
-        'email': email,
-        'role': role,
-        'password': password
-      },
+      result
     });
   }
   catch (err) {
@@ -90,6 +85,7 @@ public async update(req: IRequest, res: Response, next: NextFunction) {
   const user = new UserRepository();
   try {
     const result = await user.updateUser( id, dataToUpdate, updator);
+    console.log('res up', result)
     res.send({
       status: 'ok',
       message: 'User Updated Successfully',
@@ -113,10 +109,12 @@ public async delete(req: IRequest, res: Response, next: NextFunction) {
   const remover = req.userData._id;
   const user = new UserRepository();
   try {
-     await user.deleteData(id, remover);
+    const del =  await user.deleteData(id, remover);
+    console.log('del', del)
      res.send({
        status: 'ok',
        message: 'User Deleted successfully',
+       result: req.userData._id
       });
     }
     catch (err) {
