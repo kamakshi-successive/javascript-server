@@ -10,6 +10,14 @@ class UserController {
 public async getAll(req: IRequest, res: Response, next: NextFunction) {
   try {
       console.log('Inside get method of User Controller');
+      let { limit = 0, skip = 0, searchText } = req.query;
+      skip = Number(skip);
+      limit = Number(limit);
+      const options = {
+      limit,
+      skip,
+      // sort: { name: -1, email: -1 },
+    }
       const userRepository = new UserRepository();
       const searchField = req.query.srch;
       const user = new UserRepository();
@@ -32,10 +40,15 @@ public async getAll(req: IRequest, res: Response, next: NextFunction) {
           });
       });
       }
+      const query = {};
+      if (searchText) {
+      
+      query['$or'] = [{ name: new RegExp(searchText, 'i') }, { email: new RegExp(searchText, 'i') }]
+      
+      } 
       const sort = {};
       sort[`${req.query.sortedBy}`] = req.query.sortedOrder;
-      const extractedData = await userRepository.getAll(req.body).sort(sort).skip(Number(req.query.skip)).limit(Number(req.query.limit));
-      // console.log('sort, skip, limit ,body', sort, req.query.skip, req.query.limit, req.body);
+      const extractedData = await  userRepository.getAll(query, {}, options)
       res.status(200).send({
           message: 'User fetched successfully',
           totalCount: await userRepository.count(req.body),
@@ -114,7 +127,7 @@ public async delete(req: IRequest, res: Response, next: NextFunction) {
      res.send({
        status: 'ok',
        message: 'User Deleted successfully',
-       result: req.userData._id
+       originalId: req.userData._id
       });
     }
     catch (err) {
