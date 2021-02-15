@@ -8,15 +8,16 @@ export default  (moduleName, permissionType) => (req: IRequest, res: Response, n
       const token = req.headers.authorization;
     //   console.log('token' , token)
       const decodedUser = jwt.verify(token, configuration.key);
-    //   console.log('decoded user', decodedUser)
-    //   console.log('module name', moduleName)
-    //   console.log('decoded user role ', decodedUser.role)
-    //   console.log('permission type ', permissionType)
+      console.log('decoded user', decodedUser)
+      console.log('module name', moduleName)
+      console.log('decoded user role ', decodedUser.role)
+      console.log('permission type ', permissionType)
     req.userData = decodedUser;
       if (hasPermission(moduleName, decodedUser.role, permissionType)) {
           console.log('req userdata', req.userData)
           next();
-      } else {
+      } 
+      else {
           next(
               {
                   message: 'Unauthorised Access',

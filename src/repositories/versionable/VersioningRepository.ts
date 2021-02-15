@@ -50,12 +50,11 @@ export default class VersionableRepository<D extends mongoose.Document, M extend
 
     public async update(id: string, dataToUpdate: any, updator) {
         let originalData;
-        await this.findOne({ originalId: id, updatedAt: undefined, deletedAt: undefined })
-            .then((data) => {
-                if (data === null) {
+        const resp = await this.findOne({ originalId: id, updatedAt: undefined, deletedAt: undefined })
+                if (resp === null) {
                     throw undefined;
                 }
-                originalData = data;
+                originalData = resp;
                 const newId = VersionableRepository.generateObjectId();
                 const oldId = originalData._id;
                 const oldModel = {
@@ -71,7 +70,7 @@ export default class VersionableRepository<D extends mongoose.Document, M extend
                 newData._id = newId;
                 newData.createdAt = Date.now();
 
-                this.model.updateOne({ _id: oldId }, oldModel)
+                const up = await this.model.updateOne({ _id: oldId }, oldModel)
                     .then((res) => {
                         if (res === null) {
                             throw undefined;
@@ -80,20 +79,19 @@ export default class VersionableRepository<D extends mongoose.Document, M extend
                     .catch((err) => {
                         console.log('Error: ', err);
                     });
+                    console.log('upd', up);
 
-                this.model.create(newData);
-
-            });
+             const a = await this.model.create(newData);
+             return a
     }
 
     public async delete(id: string, remover: string) {
         let originalData;
-        await this.findOne({ _id: id, deletedAt: undefined })
-            .then((data) => {
-                if (data === null) {
+        const resp = await this.findOne({ originalId: id, deletedAt: undefined })
+            if (resp === null) {
                     throw undefined;
                 }
-                originalData = data;
+                originalData = resp;
                 const oldId = originalData._id;
                 const modelDelete = {
                     ...originalData,
@@ -102,14 +100,14 @@ export default class VersionableRepository<D extends mongoose.Document, M extend
                 };
                 this.model.updateOne({ _id: oldId }, modelDelete)
                     .then((res) => {
+                        console.log('res null', res)
                         if (res === null) {
                             throw undefined;
                         }
+                        // return res
                     })
                     .catch((err) => {
                         console.log('Error: ', err);
                     });
-            });
     }
-
 }
